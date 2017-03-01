@@ -50,19 +50,21 @@ public class TransactionDetail {
 //    private int transactionID;
 //    private int quantity;
 //    private int sellingPrice;
-    private final IntegerProperty transactionId = new SimpleIntegerProperty();
+    
+    private final ObjectProperty<Transaction> transactionId = new SimpleObjectProperty<>();
 
-    public int getTransactionId() {
+    public Transaction getTransactionId() {
         return transactionId.get();
     }
 
-    public void setTransactionId(int value) {
+    public void setTransactionId(Transaction value) {
         transactionId.set(value);
     }
 
-    public IntegerProperty transactionIdProperty() {
+    public ObjectProperty transactionIdProperty() {
         return transactionId;
     }
+    
     private final IntegerProperty quantity = new SimpleIntegerProperty();
 
     public int getQuantity() {

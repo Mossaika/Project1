@@ -9,6 +9,7 @@ import com.sales.dao.ItemDaoImpl;
 import com.sales.dao.TransactionDetailDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.TransactionDetail;
+import com.sales.utility.TextUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,7 +42,7 @@ public class TransactionDetailController implements Initializable {
     @FXML
     private TableColumn<TransactionDetail, Item> colItemName;
     @FXML
-    private TableColumn<TransactionDetail, Integer> colItemSellprice;
+    private TableColumn<TransactionDetail, String> colItemSellprice;
     @FXML
     private TableColumn<TransactionDetail, Integer> colItemQuantity;
     @FXML
@@ -99,21 +100,26 @@ public class TransactionDetailController implements Initializable {
 
         colItemId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        colItemSellprice.setCellValueFactory(new PropertyValueFactory<>(
-                "sellingPrice"));
+        colItemSellprice.setCellValueFactory((
+                TableColumn.CellDataFeatures<TransactionDetail, String> param)
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getSellingPrice()))));
         colItemQuantity.setCellValueFactory(new PropertyValueFactory<>(
                 "quantity"));
         colTotal.setCellValueFactory((
                 TableColumn.CellDataFeatures<TransactionDetail, String> param)
-                -> new SimpleStringProperty(String.valueOf(param.getValue().
-                        getSellingPrice() * param.getValue().getQuantity())));
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getSellingPrice() * param.getValue().
+                                getQuantity()))));
     }
 
     void setMainController(MainFormController aThis) {
         this.mainController = aThis;
         tblTransactionDetail.setItems(getTransactionDetails());
         totalQty.setText(String.valueOf(countQty()));
-        subtotal.setText(String.valueOf(countSubtotal()));
+        subtotal.setText(String.valueOf(TextUtil.ThisIsMoney(countSubtotal())));
     }
 
     private int countQty() {

@@ -24,10 +24,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -86,7 +88,7 @@ public class MainFormController implements Initializable {
     @FXML
     private TableColumn<Transaction, String> colTransactionUser;
     @FXML
-    private TableColumn<Transaction, Integer> colTransactionPayment;
+    private TableColumn<Transaction, String> colTransactionPayment;
     @FXML
     private TableView<Item> tableItem;
     @FXML
@@ -94,7 +96,7 @@ public class MainFormController implements Initializable {
     @FXML
     private TableColumn<Item, String> colItemName;
     @FXML
-    private TableColumn<Item, Integer> colItemPrice;
+    private TableColumn<Item, String> colItemPrice;
     @FXML
     private TableColumn<Item, Integer> colItemStock;
     @FXML
@@ -185,9 +187,7 @@ public class MainFormController implements Initializable {
     }
 
     public Item selectedItem;
-    public int selectedItemId;
     public User selectedUser;
-    public int selectedUserId;
     public Transaction selectedTransaction;
 
     /**
@@ -202,7 +202,7 @@ public class MainFormController implements Initializable {
         btnDeleteUser.setDisable(true);
         highestSelling.setDisable(true);
         cashIn.setDisable(true);
-        cashIn.setText(String.valueOf(hitungKas()));
+        cashIn.setText(String.valueOf(TextUtil.ThisIsMoney(hitungKas())));
         highestSelling.setText(String.valueOf(selectMaxCountItem()));
 
         tableTransaction.setItems(getTransactions());
@@ -211,13 +211,20 @@ public class MainFormController implements Initializable {
         colTransactionId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colTransactionUser.setCellValueFactory(p -> p.getValue().getUserId().
                 nameProperty());
-        colTransactionPayment.setCellValueFactory(new PropertyValueFactory<>(
-                "payment"));
+        colTransactionPayment.setCellValueFactory((
+                TableColumn.CellDataFeatures<Transaction, String> param)
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getPayment()))));
 
         tableItem.setItems(getItems());
         colItemId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colItemPrice.setCellValueFactory((
+                TableColumn.CellDataFeatures<Item, String> param)
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getPrice()))));
         colItemStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
         tableUser.setItems(getUsers());
@@ -245,15 +252,14 @@ public class MainFormController implements Initializable {
     private void btnUpdateItemAction(ActionEvent event) {
         if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)) {
             Item d = new Item();
-            d.setId(selectedItemId);
+            d.setId(selectedItem.getId());
             d.setName(txtItemName.getText().trim());
             d.setPrice(Integer.valueOf(txtItemPrice.getText().trim()));
             d.setStock(Integer.valueOf(txtItemStock.getText().trim()));
             TransactionDetail t = new TransactionDetail();
             t.setItemId(d);
             t.setItemName(d.getName());
-            if (getItemDao().updateData(d) == 1 && getTransactionDetailDao().
-                    updateData(t) == 1) {
+            if (getItemDao().updateData(d) == 1) {
                 getItems().clear();
                 getItems().addAll(getItemDao().showAllData());
             }
@@ -263,10 +269,16 @@ public class MainFormController implements Initializable {
     @FXML
     private void btnDeleteItemAction(ActionEvent event) {
         Item d = new Item();
-        d.setId(selectedItemId);
+        d.setId(selectedItem.getId());
+        d.setName(selectedItem.getName());
+        d.setPrice(selectedItem.getPrice());
+        d.setStock(0);
         if (getItemDao().deleteData(d) == 1) {
             btnUpdateItem.setDisable(true);
             btnDeleteItem.setDisable(true);
+            getItems().clear();
+            getItems().addAll(getItemDao().showAllData());
+        } else if (getItemDao().updateData(d) == 1) {
             getItems().clear();
             getItems().addAll(getItemDao().showAllData());
         }
@@ -304,7 +316,7 @@ public class MainFormController implements Initializable {
         if (!TextUtil.
                 isEmptyField(txtUserUsername, txtUserPassword, txtUserName)) {
             User d = new User();
-            d.setId(selectedUserId);
+            d.setId(selectedUser.getId());
             d.setUsername(txtUserUsername.getText().trim());
             d.setPassword(Encrypt.SHAHash(txtUserPassword.getText().
                     trim()));
@@ -319,7 +331,7 @@ public class MainFormController implements Initializable {
     @FXML
     private void btnDeleteUserAction(ActionEvent event) {
         User d = new User();
-        d.setId(selectedUserId);
+        d.setId(selectedUser.getId());
         if (getUserDao().deleteData(d) == 1) {
             btnUpdateUser.setDisable(true);
             btnDeleteUser.setDisable(true);
@@ -375,7 +387,6 @@ public class MainFormController implements Initializable {
             txtItemName.setText(selectedItem.getName());
             txtItemPrice.setText(String.valueOf(selectedItem.getPrice()));
             txtItemStock.setText(String.valueOf(selectedItem.getStock()));
-            selectedItemId = selectedItem.getId();
         }
     }
 
@@ -387,7 +398,6 @@ public class MainFormController implements Initializable {
         if (selectedUser != null) {
             txtUserUsername.setText(selectedUser.getUsername());
             txtUserName.setText(String.valueOf(selectedUser.getName()));
-            selectedUserId = selectedUser.getId();
             if (selectedUser.getRoleId().getId() != 1) {
                 btnDeleteUser.setDisable(false);
             }
@@ -396,8 +406,17 @@ public class MainFormController implements Initializable {
 
     private int hitungKas() {
         int kas = 0;
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int yearnow = cal.get(Calendar.YEAR);
+        int yearthen = cal.get(Calendar.YEAR);
         for (Transaction transaction : getTransactions()) {
-            kas += transaction.getPayment();
+            cal.setTime(transaction.getDate());
+            yearthen = cal.get(Calendar.YEAR);
+            if (yearthen == yearnow) {
+                kas += transaction.getPayment();
+            }
         }
         return kas;
     }
@@ -405,7 +424,7 @@ public class MainFormController implements Initializable {
     public String selectMaxCountItem() {
         String max = null;
         String query = "SELECT item_name, SUM(quantity) AS Count "
-                + "FROM transaction_detail " + "GROUP BY item_id "
+                + "FROM transaction_detail " + "GROUP BY item_name "
                 + "ORDER BY Count DESC " + "LIMIT 1";
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {;

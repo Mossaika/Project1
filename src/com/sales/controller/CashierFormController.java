@@ -67,7 +67,7 @@ public class CashierFormController implements Initializable {
     @FXML
     private TableColumn<Item, String> colItemName;
     @FXML
-    private TableColumn<Item, Integer> colItemPrice;
+    private TableColumn<Item, String> colItemPrice;
     @FXML
     private TableColumn<Item, Integer> colItemStock;
     @FXML
@@ -146,7 +146,11 @@ public class CashierFormController implements Initializable {
         tableCart.setItems(getCarts());
         colItemId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colItemPrice.setCellValueFactory((
+                TableColumn.CellDataFeatures<Item, String> param)
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getPrice()))));
         colItemStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         colCartItemId.setCellValueFactory((
                 TableColumn.CellDataFeatures<Cart, String> param)
@@ -157,8 +161,9 @@ public class CashierFormController implements Initializable {
                 -> new SimpleStringProperty(param.getValue().getName()));
         colCartItemPrice.setCellValueFactory((
                 TableColumn.CellDataFeatures<Cart, String> param)
-                -> new SimpleStringProperty(String.valueOf(param.getValue().
-                        getPrice())));
+                -> new SimpleStringProperty(String.valueOf(TextUtil.ThisIsMoney(
+                        param.getValue().
+                                getPrice()))));
         colCartItemQty.setCellValueFactory((
                 TableColumn.CellDataFeatures<Cart, String> param)
                 -> new SimpleStringProperty(String.valueOf(param.getValue().
@@ -166,8 +171,8 @@ public class CashierFormController implements Initializable {
         colCartTotal.setCellValueFactory((
                 TableColumn.CellDataFeatures<Cart, String> param)
                 -> new SimpleStringProperty(String.
-                        valueOf(param.getValue().
-                                getQty() * param.getValue().getPrice())));
+                        valueOf(TextUtil.ThisIsMoney(param.getValue().
+                                getQty() * param.getValue().getPrice()))));
     }
 
     @FXML
@@ -175,7 +180,7 @@ public class CashierFormController implements Initializable {
         if (TextUtil.isNumber(txtQty.getText())) {
             int qty = Integer.valueOf(txtQty.getText());
             if (qty < 1) {
-                TextUtil.alerting(Alert.AlertType.ERROR, "input kurang dari 0",
+                TextUtil.alerting(Alert.AlertType.ERROR, "input kurang dari 1",
                         "silahkan input ulang");
             } else if (qty > selectedItem.getStock()) {
                 TextUtil.alerting(Alert.AlertType.ERROR, "Habis",
@@ -240,7 +245,7 @@ public class CashierFormController implements Initializable {
                 transactionDetail.setItemName(cart.getName());
                 transactionDetail.setQuantity(cart.getQty());
                 transactionDetail.setSellingPrice(cart.getPrice());
-                transactionDetail.setTransactionId(transaction.getId());
+                transactionDetail.setTransactionId(transaction);
                 getTransactionDetailDao().addData(transactionDetail);
 
             }

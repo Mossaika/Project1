@@ -5,6 +5,8 @@
  */
 package com.sales.utility;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputControl;
 
@@ -42,4 +44,10 @@ public class TextUtil {
         alert.showAndWait();
     }
 
+    public static String ThisIsMoney(int num) {
+        Locale indo = new Locale("id", "ID");
+        NumberFormat rupiahFormat = NumberFormat.getCurrencyInstance(indo);
+
+        return rupiahFormat.format(num);
+    }
 }
