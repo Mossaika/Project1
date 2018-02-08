@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Developer
  */
-public class OwnerFormController implements Initializable {
+public class MainFormController implements Initializable {
 
     /**
      * Initializes the controller class.
