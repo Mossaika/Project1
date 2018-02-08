@@ -35,14 +35,14 @@
                   <Label text="Nama Barang" GridPane.rowIndex="1" />
                   <Label text="Harga Barang" GridPane.rowIndex="2" />
                   <Label text="Stok" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="itemIDField" GridPane.columnIndex="1" />
+                  <TextField fx:id="itemNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="itemPriceField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="itemStockField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <Button mnemonicParsing="false" text="Cancel" />
-                        <Button mnemonicParsing="false" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#btnCancelAction" text="Cancel" />
+                        <Button mnemonicParsing="false" onAction="#btnSaveAction" text="Save" />
                      </children>
                   </HBox>
                </children>
@@ -73,7 +73,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                        <TextField prefHeight="25.0" prefWidth="188.0" />
+                        <TextField fx:id="highestSelling" prefHeight="25.0" prefWidth="188.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -83,7 +83,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField prefHeight="25.0" prefWidth="188.0" />
+                        <TextField fx:id="cashIn" prefHeight="25.0" prefWidth="188.0" />
                      </children>
                   </HBox>
                </children>

@@ -5,6 +5,8 @@
  */
 package com.sales.entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Developer
@@ -13,10 +15,30 @@ public class Transaction {
 
     private int id;
     private int payment;
+    private Date date;
+    private int userID;
 
-    public Transaction(int id, int payment) {
+    public Transaction(int id, int payment, Date date, int userID) {
         this.id = id;
         this.payment = payment;
+        this.date = date;
+        this.userID = userID;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getId() {

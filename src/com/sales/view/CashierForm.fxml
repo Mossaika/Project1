@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Label text="Username" />
-                  <TextField GridPane.columnIndex="1" />
+                  <TextField fx:id="usernameField" GridPane.columnIndex="1" />
                   <Label text="Barang" GridPane.rowIndex="1" />
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
@@ -44,8 +44,8 @@
                      <children>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3">
                            <children>
-                              <Button mnemonicParsing="false" text="Add to Cart" />
-                              <Button mnemonicParsing="false" text="Checkout" />
+                              <Button mnemonicParsing="false" onAction="#btnAddCartAction" text="Add to Cart" />
+                              <Button mnemonicParsing="false" onAction="#btnCheckoutAction" text="Checkout" />
                            </children>
                         </HBox>
                         <ComboBox prefHeight="25.0" prefWidth="261.0" />
@@ -74,7 +74,7 @@
               </rowConstraints>
                <children>
                   <Label text="Subtotal" />
-                  <TextField GridPane.columnIndex="1" />
+                  <TextField fx:id="subtotalField" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
