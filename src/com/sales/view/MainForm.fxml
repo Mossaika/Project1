@@ -42,6 +42,7 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnCancelAction" text="Cancel" />
+                        <Button mnemonicParsing="false" onAction="#btnAddAction" text="Add" />
                         <Button mnemonicParsing="false" onAction="#btnSaveAction" text="Save" />
                      </children>
                   </HBox>

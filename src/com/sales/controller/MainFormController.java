@@ -5,6 +5,8 @@
  */
 package com.sales.controller;
 
+import com.sales.entity.Item;
+import com.sales.utility.TextUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -46,6 +48,17 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnSaveAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnAddAction(ActionEvent event) {
+        if (!TextUtil.isEmptyField(itemNameField)) {
+            Item d = new Item();
+            d.setId(Integer.valueOf(itemIDField.getText().trim()));
+            d.setName(itemNameField.getText().trim());
+            d.setPrice(Integer.valueOf(itemPriceField.getText().trim()));
+            d.setStock(Integer.valueOf(itemStockField.getText().trim()));
+        }
     }
 
 }
