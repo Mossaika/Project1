@@ -19,7 +19,7 @@ public class RoleDaoImpl implements DaoService<Role> {
     public int addData(Role object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public int deleteData(Role object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
