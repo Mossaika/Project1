@@ -26,6 +26,9 @@ public class User {
         this.roleID = roleID;
     }
 
+    public User() {
+    }
+
     public int getRoleID() {
         return roleID;
     }

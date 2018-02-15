@@ -34,5 +34,4 @@ public class RoleDaoImpl implements DaoService<Role> {
     public List<Role> showAllData() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

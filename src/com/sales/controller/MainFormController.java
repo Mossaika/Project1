@@ -5,6 +5,7 @@
  */
 package com.sales.controller;
 
+import com.sales.dao.TransactionDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
 import com.sales.entity.User;
@@ -12,6 +13,8 @@ import com.sales.utility.TextUtil;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -58,6 +62,17 @@ public class MainFormController implements Initializable {
     private TextField highestSelling;
     @FXML
     private TextField cashIn;
+    @FXML
+    private ComboBox<Item> comboItem;
+    private ObservableList<Transaction> transactions;
+    private TransactionDaoImpl transactionDao;
+
+    public TransactionDaoImpl getTransactionDao() {
+        if (transactionDao == null) {
+            transactionDao = new TransactionDaoImpl();
+        }
+        return transactionDao;
+    }
 
     /**
      * Initializes the controller class.
@@ -67,6 +82,20 @@ public class MainFormController implements Initializable {
         // TODO
         highestSelling.setDisable(true);
         cashIn.setDisable(true);
+
+        tableTransaction.setItems(getTransactions());
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colTransactionId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        colPayment.setCellValueFactory(new PropertyValueFactory<>("payment"));
+    }
+
+    public ObservableList<Transaction> getTransactions() {
+        if (transactions == null) {
+            transactions = FXCollections.observableArrayList();
+            transactions.addAll(getTransactionDao().showAllData());
+        }
+        return transactions;
     }
 
     @FXML

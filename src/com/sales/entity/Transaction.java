@@ -16,13 +16,16 @@ public class Transaction {
     private int id;
     private int payment;
     private Date date;
-    private int userID;
+    private User userID;
 
-    public Transaction(int id, int payment, Date date, int userID) {
+    public Transaction(int id, int payment, Date date, User userID) {
         this.id = id;
         this.payment = payment;
         this.date = date;
         this.userID = userID;
+    }
+
+    public Transaction() {
     }
 
     public Date getDate() {
@@ -33,11 +36,11 @@ public class Transaction {
         this.date = date;
     }
 
-    public int getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 

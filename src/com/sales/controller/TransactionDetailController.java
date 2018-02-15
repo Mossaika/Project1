@@ -14,9 +14,9 @@ import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
- * @author Velz
+ * @author Developer
  */
-public class TransactionDetailsController implements Initializable {
+public class TransactionDetailController implements Initializable {
 
     @FXML
     private TextField totalField;

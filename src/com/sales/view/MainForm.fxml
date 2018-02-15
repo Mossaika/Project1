@@ -21,8 +21,8 @@
          <children>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="87.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="503.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="132.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="458.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -34,7 +34,7 @@
                   <Label text="Nama Barang" />
                   <Label text="Harga Barang" GridPane.rowIndex="1" />
                   <Label text="Stok" GridPane.rowIndex="2" />
-                  <TextField fx:id="itemNameField" GridPane.columnIndex="1" />
+                  <TextField fx:id="itemNameField" prefHeight="25.0" prefWidth="464.0" GridPane.columnIndex="1" />
                   <TextField fx:id="itemPriceField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="itemStockField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -44,6 +44,7 @@
                         <Button mnemonicParsing="false" onAction="#btnSaveAction" text="Save" />
                      </children>
                   </HBox>
+                  <ComboBox fx:id="comboItem" prefWidth="150.0" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <TableView fx:id="tableTransaction" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.rowIndex="3">

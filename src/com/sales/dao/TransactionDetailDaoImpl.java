@@ -10,8 +10,11 @@ import com.sales.utility.DBUtil;
 import com.sales.utility.DaoService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -58,7 +61,27 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
 
     @Override
     public List<TransactionDetail> showAllData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ObservableList<TransactionDetail> categories = FXCollections
+                .observableArrayList();
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                String query
+                        = "SELECT itemID, transactionID, quantity, sellingPrice FROM TransactionDetail";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    TransactionDetail detail = new TransactionDetail();
+                    detail.setItemID(rs.getInt("itemID"));
+                    detail.setTransactionID(rs.getInt("transactionID"));
+                    detail.setQuantity(rs.getInt("quantity"));
+                    detail.setSellingPrice(rs.getInt("sellingPrice"));
+                    categories.add(detail);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return categories;
     }
 
 }

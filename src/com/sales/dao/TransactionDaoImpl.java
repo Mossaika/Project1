@@ -6,13 +6,16 @@
 package com.sales.dao;
 
 import com.sales.entity.Transaction;
+import com.sales.entity.User;
 import com.sales.utility.DBUtil;
 import com.sales.utility.DaoService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -22,18 +25,15 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
 
     @Override
     public int addData(Transaction object) {
-        Timestamp t = new Timestamp(System.currentTimeMillis());
         int result = 0;
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 connection.setAutoCommit(false);
-                String query = "INSERT INTO Transaction(id,payment,date,userID)"
-                        + "VALUES (?,?,?,?)";
+                String query = "INSERT INTO Transaction(payment,userID)"
+                        + "VALUES (?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getId());
-                ps.setInt(2, object.getPayment());
-                ps.setTimestamp(3, t);
-                ps.setInt(4, object.getUserID());
+                ps.setInt(1, object.getPayment());
+                ps.setInt(2, object.getUserID().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -59,7 +59,30 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
 
     @Override
     public List<Transaction> showAllData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ObservableList<Transaction> transactions = FXCollections
+                .observableArrayList();
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                String query
+                        = "SELECT t.id, t.payment, t.trans_date, u.id as user_id FROM transaction t JOIN user u ON u.id = t.user_id";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setPayment(rs.getInt("payment"));
+                    transaction.setDate(rs.getTimestamp("trans_date"));
+
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    transaction.setUserID(user);
+                    transactions.add(transaction);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return transactions;
     }
 
 }

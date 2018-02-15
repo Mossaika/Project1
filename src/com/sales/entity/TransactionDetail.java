@@ -24,6 +24,9 @@ public class TransactionDetail {
         this.sellingPrice = sellingPrice;
     }
 
+    public TransactionDetail() {
+    }
+
     public int getItemID() {
         return itemID;
     }

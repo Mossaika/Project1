@@ -19,8 +19,8 @@ public class DBUtil {
             ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://host:port/oopl20172",
-                "username", "password");
+                "jdbc:mysql://localhost:3306/oopl20172",
+                "root", "");
         connection.setAutoCommit(false);
         return connection;
     }

@@ -10,8 +10,11 @@ import com.sales.utility.DBUtil;
 import com.sales.utility.DaoService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -25,13 +28,12 @@ public class ItemDaoImpl implements DaoService<Item> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 connection.setAutoCommit(false);
-                String query = "INSERT INTO Item(id,name,price,stock)"
-                        + "VALUES (?,?,?,?)";
+                String query = "INSERT INTO Item(name,price,stock)"
+                        + "VALUES (?,?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getId());
-                ps.setString(2, object.getName());
-                ps.setInt(3, object.getPrice());
-                ps.setInt(4, object.getStock());
+                ps.setString(1, object.getName());
+                ps.setInt(2, object.getPrice());
+                ps.setInt(3, object.getStock());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -47,7 +49,25 @@ public class ItemDaoImpl implements DaoService<Item> {
 
     @Override
     public int deleteData(Item object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int result = 0;
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                connection.setAutoCommit(false);
+                String query
+                        = "DELETE FROM Item WHERE id=?";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setInt(1, object.getId());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
     }
 
     @Override
@@ -78,7 +98,26 @@ public class ItemDaoImpl implements DaoService<Item> {
 
     @Override
     public List<Item> showAllData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ObservableList<Item> categories = FXCollections
+                .observableArrayList();
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                String query = "SELECT id, name, price, stock FROM Item";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Item item = new Item();
+                    item.setId(rs.getInt("id"));
+                    item.setName(rs.getString("name"));
+                    item.setPrice(rs.getInt("price"));
+                    item.setStock(rs.getInt("stock"));
+                    categories.add(item);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return categories;
     }
 
 }
