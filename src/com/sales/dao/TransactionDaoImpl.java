@@ -85,4 +85,9 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
         return transactions;
     }
 
+    @Override
+    public Transaction getData(Transaction id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

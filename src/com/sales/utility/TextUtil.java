@@ -5,6 +5,7 @@
  */
 package com.sales.utility;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputControl;
 
 /**
@@ -20,6 +21,14 @@ public class TextUtil {
             }
         }
         return false;
+    }
+
+    public static void alerting(Alert.AlertType alertType, String header,
+            String content) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }

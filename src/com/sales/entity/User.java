@@ -15,10 +15,10 @@ public class User {
     private String name;
     private String username;
     private String password;
-    private int roleID;
+    private Role roleID;
 
     public User(int id, String name, String username, String password,
-            int roleID) {
+            Role roleID) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -29,11 +29,11 @@ public class User {
     public User() {
     }
 
-    public int getRoleID() {
+    public Role getRoleID() {
         return roleID;
     }
 
-    public void setRoleID(int roleID) {
+    public void setRoleID(Role roleID) {
         this.roleID = roleID;
     }
 

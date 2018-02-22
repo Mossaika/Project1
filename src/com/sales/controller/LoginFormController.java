@@ -6,11 +6,16 @@
 package com.sales.controller;
 
 import com.sales.MainApp;
+import com.sales.dao.UserDaoImpl;
+import com.sales.entity.User;
+import com.sales.utility.TextUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +40,28 @@ public class LoginFormController implements Initializable {
     private PasswordField txtPassword;
     @FXML
     private AnchorPane anchorPane;
+    private UserDaoImpl userDao;
+
+    public UserDaoImpl getUserDao() {
+        if (userDao == null) {
+            userDao = new UserDaoImpl();
+        }
+        return userDao;
+    }
+    private ObservableList<User> users;
+
+    public ObservableList<User> getUser() {
+        if (users == null) {
+            users = FXCollections.observableArrayList();
+            users.addAll(getUserDao().showAllData());
+        }
+        return users;
+    }
+    private User selectedUser;
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
 
     /**
      * Initializes the controller class.
@@ -46,6 +73,9 @@ public class LoginFormController implements Initializable {
 
     @FXML
     private void btnLoginAction(ActionEvent event) {
+        User user = new User();
+        user.setUsername(txtUsername.getText());
+        user.setPassword(txtPassword.getText());
 //        System.out.println(txtUsername.getText());
 //        System.out.println(txtPassword.getText());
         if (txtUsername.getText().trim().isEmpty() || txtPassword.getText().
@@ -54,29 +84,52 @@ public class LoginFormController implements Initializable {
             alert.setContentText("Please fill all field");
             alert.showAndWait();
 
-        } else if (txtUsername.getText().equals("1672023") && txtPassword.
-                getText().equals("Joses")) {
-            try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource(
-                        "view/MainForm.fxml"));
-                AnchorPane pane = loader.load();
-                Scene scene = new Scene(pane);
-                Stage secondStage = new Stage();
-                secondStage.setScene(scene);
-                secondStage.setTitle("Main Form");
+        } else if (getUserDao().getData(user) != null) {
+            selectedUser = getUserDao().getData(user);
+            if (selectedUser.getRoleID().getName().equalsIgnoreCase("owner")) {
+                try {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(MainApp.class.getResource(
+                            "view/MainForm.fxml"));
+                    AnchorPane pane = loader.load();
+                    Scene scene = new Scene(pane);
+                    Stage secondStage = new Stage();
+                    secondStage.setScene(scene);
+                    secondStage.setTitle("Main Form");
 //                secondStage.initOwner(anchorPane.getScene().getWindow());
 //                secondStage.initModality(Modality.NONE);
-                anchorPane.getScene().getWindow().hide();
-                secondStage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginFormController.class.getName()).
-                        log(Level.SEVERE, null, ex);
+                    anchorPane.getScene().getWindow().hide();
+                    secondStage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginFormController.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } else if (selectedUser.getRoleID().getName().equalsIgnoreCase(
+                    "cashier")) {
+                try {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(MainApp.class.getResource(
+                            "view/CashierForm.fxml"));
+                    AnchorPane pane = loader.load();
+                    Scene scene = new Scene(pane);
+                    Stage secondStage = new Stage();
+                    secondStage.setScene(scene);
+                    secondStage.setTitle("Cashier Form");
+//                secondStage.initOwner(anchorPane.getScene().getWindow());
+//                secondStage.initModality(Modality.NONE);
+                    anchorPane.getScene().getWindow().hide();
+                    secondStage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginFormController.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } else {
+                TextUtil.alerting(Alert.AlertType.INFORMATION, "bukan owner",
+                        selectedUser.getRoleID().getName());
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Invalid username or password");
-            alert.showAndWait();
+            TextUtil.alerting(Alert.AlertType.ERROR, "invalid user password",
+                    "password/id yang anda masukkan salah");
         }
     }
 }

@@ -16,10 +16,6 @@ public class Item {
     private int price;
     private int stock;
 
-    public Item() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public int getId() {
         return id;
     }
@@ -52,11 +48,15 @@ public class Item {
         this.stock = stock;
     }
 
-    public Item(int id, String name, int price, int stock) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
+//    public Item(int id, String name, int price, int stock) {
+//        this.id = id;
+//        this.name = name;
+//        this.price = price;
+//        this.stock = stock;
+//    }
+    @Override
+    public String toString() {
+        return name + " - " + id;
     }
 
 }

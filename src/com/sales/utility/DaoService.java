@@ -20,4 +20,6 @@ public interface DaoService<E> {
     int updateData(E object);
 
     List<E> showAllData();
+
+    E getData(E id);
 }

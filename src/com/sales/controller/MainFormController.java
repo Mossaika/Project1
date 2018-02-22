@@ -5,6 +5,7 @@
  */
 package com.sales.controller;
 
+import com.sales.dao.ItemDaoImpl;
 import com.sales.dao.TransactionDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
@@ -74,6 +75,25 @@ public class MainFormController implements Initializable {
         return transactionDao;
     }
 
+    private ItemDaoImpl itemDao;
+
+    public ItemDaoImpl getItemDao() {
+        if (itemDao == null) {
+            itemDao = new ItemDaoImpl();
+        }
+        return itemDao;
+    }
+
+    public ObservableList<Item> items;
+
+    public ObservableList<Item> getItems() {
+        if (items == null) {
+            items = FXCollections.observableArrayList();
+            items.addAll(getItemDao().showAllData());
+        }
+        return items;
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -115,15 +135,21 @@ public class MainFormController implements Initializable {
     private void btnAddAction(ActionEvent event) {
         if (!TextUtil.isEmptyField(itemNameField)) {
             Item d = new Item();
-            d.setId(Integer.valueOf(itemIDField.getText().trim()));
             d.setName(itemNameField.getText().trim());
             d.setPrice(Integer.valueOf(itemPriceField.getText().trim()));
             d.setStock(Integer.valueOf(itemStockField.getText().trim()));
+            if (getItemDao().addData(d) == 1) {
+                getItems().clear();
+                getItems().addAll(getItemDao().showAllData());
+
+                comboItem.setItems(items);
+            }
         }
     }
 
     @FXML
     private void btnSaveUserAction(ActionEvent event) {
+
     }
 
     @FXML

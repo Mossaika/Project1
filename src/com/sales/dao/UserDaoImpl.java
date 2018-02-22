@@ -5,6 +5,7 @@
  */
 package com.sales.dao;
 
+import com.sales.entity.Role;
 import com.sales.entity.User;
 import com.sales.utility.DBUtil;
 import com.sales.utility.DaoService;
@@ -36,7 +37,7 @@ public class UserDaoImpl implements DaoService<User> {
                 ps.setString(2, object.getName());
                 ps.setString(3, object.getUsername());
                 ps.setString(4, object.getPassword());
-                ps.setInt(5, object.getRoleID());
+                ps.setInt(5, object.getRoleID().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -119,6 +120,34 @@ public class UserDaoImpl implements DaoService<User> {
             System.out.println(ex);
         }
         return categories;
+    }
+
+    @Override
+    public User getData(User id) {
+        try (Connection connection = DBUtil.createMySQLConnection()) {
+
+            String query
+                    = "SELECT u.username, u.password, u.role_id, r.name FROM user u join role r on u.role_id = r.id WHERE u.username=? AND u.password=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, id.getUsername());
+            ps.setString(2, id.getPassword());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setUsername(rs.getString("u.username"));
+
+                user.setPassword(rs.getString("u.password"));
+//                    user.setRole_id_Role(rs.get);
+                Role role = new Role();
+                role.setId(rs.getInt("u.role_id"));
+                role.setName(rs.getString("r.name"));
+                user.setRoleID(role);
+                return user;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return (null);
     }
 
 }

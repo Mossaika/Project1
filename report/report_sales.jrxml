@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_sales" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c188e4f-b52c-4eb2-b6bb-9c097edbb51e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     item.`id` AS item_id,
+     item.`name` AS item_name,
+     item.`price` AS item_price,
+     item.`stock` AS item_stock,
+     role.`id` AS role_id,
+     role.`name` AS role_name,
+     transaction.`id` AS transaction_id,
+     transaction.`trans_date` AS transaction_trans_date,
+     transaction.`payment` AS transaction_payment,
+     transaction.`user_id` AS transaction_user_id,
+     transaction_detail.`item_id` AS transaction_detail_item_id,
+     transaction_detail.`transaction_id` AS transaction_detail_transaction_id,
+     transaction_detail.`quantity` AS transaction_detail_quantity,
+     transaction_detail.`selling_price` AS transaction_detail_selling_price,
+     user.`id` AS user_id,
+     user.`name` AS user_name,
+     user.`username` AS user_username,
+     user.`password` AS user_password,
+     user.`role_id` AS user_role_id
+FROM
+     `item` item INNER JOIN `transaction_detail` transaction_detail ON item.`id` = transaction_detail.`item_id`
+     INNER JOIN `transaction` transaction ON transaction_detail.`transaction_id` = transaction.`id`
+     INNER JOIN `user` user ON transaction.`user_id` = user.`id`
+     INNER JOIN `role` role ON user.`role_id` = role.`id`]]>
+	</queryString>
+	<field name="item_id" class="java.lang.Integer"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="item_price" class="java.lang.Integer"/>
+	<field name="item_stock" class="java.lang.Integer"/>
+	<field name="role_id" class="java.lang.Integer"/>
+	<field name="role_name" class="java.lang.String"/>
+	<field name="transaction_id" class="java.lang.Integer"/>
+	<field name="transaction_trans_date" class="java.sql.Timestamp"/>
+	<field name="transaction_payment" class="java.lang.Integer"/>
+	<field name="transaction_user_id" class="java.lang.Integer"/>
+	<field name="transaction_detail_item_id" class="java.lang.Integer"/>
+	<field name="transaction_detail_transaction_id" class="java.lang.Integer"/>
+	<field name="transaction_detail_quantity" class="java.lang.Integer"/>
+	<field name="transaction_detail_selling_price" class="java.lang.Integer"/>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="user_name" class="java.lang.String"/>
+	<field name="user_username" class="java.lang.String"/>
+	<field name="user_password" class="java.lang.String"/>
+	<field name="user_role_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<image>
+				<reportElement x="725" y="0" width="77" height="102" uuid="e204a4ea-4f6b-4a18-9f1c-d85379103d62"/>
+				<imageExpression><![CDATA["cherry.jpg"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000" uuid="23dfa4ec-86a7-42d3-a9fe-76fc0dc6714e"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="8c1b14b9-2c22-48df-b2b5-1ee77f5164d0"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry Store]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="b33f47c7-356c-4c9d-a028-02e1fdc78b3b"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Invoice]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#CC0000" uuid="13f4dc61-1ba0-413d-a56c-3b2a7a7d6ad4"/>
+				<textField>
+					<reportElement x="2" y="12" width="100" height="20" forecolor="#FFFFFF" uuid="731effaf-476b-40ef-9346-e69dab306df9"/>
+					<textFieldExpression><![CDATA[$F{user_username}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="102" y="12" width="100" height="20" forecolor="#FFFFFF" uuid="58ce71ce-cf9e-4417-b079-675eacf2e566"/>
+					<textFieldExpression><![CDATA[$F{user_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="202" y="12" width="100" height="20" forecolor="#FFFFFF" uuid="3adad4d6-699c-427b-911e-a4162cb22a18"/>
+					<textFieldExpression><![CDATA[$F{transaction_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="75e80db1-b34e-4015-a6da-1aeb23346658"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{transaction_trans_date}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="100" height="20" uuid="86be4c8e-1a50-46a1-ac3b-eb9a32748a58"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="102" y="0" width="100" height="20" uuid="cdc32c70-c31a-4c88-9aa4-ed1e19de192f"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Item ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="0" width="100" height="20" uuid="3a12ec5c-fafd-4972-b43d-780aa3c0c9f6"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="0" width="100" height="20" uuid="36bd3975-675a-4188-8574-f8ee6c04cc05"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="2" y="0" width="797" height="20" uuid="2dc594f7-8b66-478d-9dc4-db28327d5093"/>
+				<textField>
+					<reportElement x="0" y="0" width="100" height="20" uuid="835a771c-3080-41a1-bc13-ee0c9d2983e1"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="0" width="100" height="20" uuid="3d7e8ce7-0032-43a3-b096-e956c23f4ef8"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{item_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="200" y="0" width="100" height="20" uuid="bd3f2e36-4c73-4f4a-b12d-6bc47d8945c8"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{transaction_detail_quantity}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="300" y="0" width="100" height="20" uuid="ee4cc045-f429-421e-a8d9-1ec52c3c5ce9"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{transaction_detail_selling_price}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="302" y="20" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bedc9473-461d-4bfb-aa05-f67a98e8f6b0"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{transaction_payment}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="202" y="20" width="100" height="20" uuid="17744257-d190-4ba7-ae36-238ba346c8a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Payment]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="9f9c76da-2aac-4ad0-917f-bfc95de38afc"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="8403ecf7-ef88-4416-a89b-b2d5834794f7"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="1a2d8d10-1537-4740-9af9-5270f5942ec3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="343ce5e3-1483-4149-92fa-26f49aa04025"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="fc14906d-7041-4499-a79c-9418bfb42370"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Thank you for your purchase!]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
