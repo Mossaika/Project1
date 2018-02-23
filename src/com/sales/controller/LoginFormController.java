@@ -60,6 +60,10 @@ public class LoginFormController implements Initializable {
     }
     private User selectedUser;
 
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
     public User getSelectedUser() {
         return selectedUser;
     }
@@ -86,8 +90,9 @@ public class LoginFormController implements Initializable {
             alert.showAndWait();
 
         } else if (getUserDao().getData(user) != null) {
-            selectedUser = getUserDao().getData(user);
-            if (selectedUser.getRoleId().getName().equalsIgnoreCase("owner")) {
+            setSelectedUser(getUserDao().getData(user));
+            if (getSelectedUser().getRoleId().getName().
+                    equalsIgnoreCase("owner")) {
                 try {
                     Stage secondStage = new Stage();
                     secondStage.setTitle("Main Form");
@@ -105,20 +110,23 @@ public class LoginFormController implements Initializable {
                     Logger.getLogger(LoginFormController.class.getName()).
                             log(Level.SEVERE, null, ex);
                 }
-            } else if (selectedUser.getRoleId().getName().equalsIgnoreCase(
+            } else if (getSelectedUser().getRoleId().getName().equalsIgnoreCase(
                     "cashier")) {
                 try {
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(MainApp.class.getResource(
                             "view/CashierForm.fxml"));
                     AnchorPane pane = loader.load();
+                    CashierFormController cashierFormController = loader.
+                            getController();
+                    cashierFormController.setMainController(this);
                     Scene scene = new Scene(pane);
                     Stage secondStage = new Stage();
                     secondStage.setScene(scene);
                     secondStage.setTitle("Cashier Form");
-//                secondStage.initOwner(anchorPane.getScene().getWindow());
-//                secondStage.initModality(Modality.NONE);
-                    anchorPane.getScene().getWindow().hide();
+                    secondStage.initOwner(anchorPane.getScene().getWindow());
+                    secondStage.initModality(Modality.NONE);
+//                    anchorPane.getScene().getWindow().hide();
                     secondStage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(LoginFormController.class.getName()).

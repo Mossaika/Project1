@@ -23,6 +23,17 @@ public class TextUtil {
         return false;
     }
 
+    public static boolean isNumber(String number) {
+        try {
+            Integer.parseInt(number);
+        } catch (Exception e) {
+            alerting(Alert.AlertType.ERROR, "Not a number",
+                    "Your input is not a number");
+            return false;
+        }
+        return true;
+    }
+
     public static void alerting(Alert.AlertType alertType, String header,
             String content) {
         Alert alert = new Alert(alertType);

@@ -29,11 +29,12 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 connection.setAutoCommit(false);
-                String query = "INSERT INTO Transaction(payment,userID)"
-                        + "VALUES (?,?)";
+                String query = "INSERT INTO Transaction(id,payment,user_id) "
+                        + "VALUES (?,?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getPayment());
-                ps.setInt(2, object.getUserId().getId());
+                ps.setInt(1, object.getId());
+                ps.setInt(2, object.getPayment());
+                ps.setInt(3, object.getUserId().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;

@@ -129,7 +129,7 @@ public class UserDaoImpl implements DaoService<User> {
         try (Connection connection = DBUtil.createMySQLConnection()) {
 
             String query
-                    = "SELECT u.username, u.password, u.role_id, r.name FROM user u join role r on u.role_id = r.id WHERE u.username=? AND u.password=?";
+                    = "SELECT u.username, u.password,u.id,u.role_id, r.name FROM user u join role r on u.role_id = r.id WHERE u.username=? AND u.password=?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, id.getUsername());
             ps.setString(2, id.getPassword());
@@ -139,7 +139,7 @@ public class UserDaoImpl implements DaoService<User> {
                 user.setUsername(rs.getString("u.username"));
 
                 user.setPassword(rs.getString("u.password"));
-//                    user.setRole_id_Role(rs.get);
+                user.setId(rs.getInt("u.id"));
                 Role role = new Role();
                 role.setId(rs.getInt("u.role_id"));
                 role.setName(rs.getString("r.name"));

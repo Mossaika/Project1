@@ -32,7 +32,6 @@ public class TransactionDetail {
 //    private int transactionID;
 //    private int quantity;
 //    private int sellingPrice;
-//
     private final IntegerProperty transactionId = new SimpleIntegerProperty();
 
     public int getTransactionId() {

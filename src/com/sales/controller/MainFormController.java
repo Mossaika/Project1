@@ -52,6 +52,14 @@ public class MainFormController implements Initializable {
     @FXML
     private TextField txtUserName;
     @FXML
+    private Button btnUpdateItem;
+    @FXML
+    private Button btnDeleteItem;
+    @FXML
+    private Button btnUpdateUser;
+    @FXML
+    private Button btnDeleteUser;
+    @FXML
     private TableView<Transaction> tableTransaction;
     @FXML
     private TableColumn<Transaction, Date> colTransactionDate;
@@ -83,15 +91,6 @@ public class MainFormController implements Initializable {
     // transaction stuff goes here
     private ObservableList<Transaction> transactions;
     private TransactionDaoImpl transactionDao;
-
-    @FXML
-    private Button btnUpdateItem;
-    @FXML
-    private Button btnDeleteItem;
-    @FXML
-    private Button btnUpdateUser;
-    @FXML
-    private Button btnDeleteUser;
 
     public TransactionDaoImpl getTransactionDao() {
         if (transactionDao == null) {

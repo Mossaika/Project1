@@ -14,11 +14,20 @@ import javafx.beans.property.StringProperty;
  *
  * @author Developer
  */
-public class Item {
+public class Cart {
 
     private final IntegerProperty id = new SimpleIntegerProperty();
+    private int qty;
 
-    public Item() {
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public Cart() {
     }
 
     public int getId() {
@@ -77,7 +86,7 @@ public class Item {
         return stock;
     }
 
-    public Item(int id, String name, int price) {
+    public Cart(int id, String name, int price) {
         this.setId(id);
         this.setName(name);
         this.setPrice(price);
