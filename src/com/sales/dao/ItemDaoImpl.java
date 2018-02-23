@@ -122,7 +122,25 @@ public class ItemDaoImpl implements DaoService<Item> {
 
     @Override
     public Item getData(Item id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DBUtil.createMySQLConnection()) {
+
+            String query
+                    = "SELECT i.stock FROM item i WHERE i.id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id.getStock());
+            ps.setInt(2, id.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Item item = new Item();
+                item.setStock(rs.getInt("i.stock"));
+
+                item.setId(rs.getInt("i.id"));
+                return item;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return (null);
     }
 
 }

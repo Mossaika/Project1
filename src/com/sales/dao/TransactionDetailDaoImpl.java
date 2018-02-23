@@ -29,7 +29,7 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 connection.setAutoCommit(false);
                 String query
-                        = "INSERT INTO TransactionDetail(itemID,transactionID,quantity,sellingprice)"
+                        = "INSERT INTO Transaction_Detail(item_ID,transaction_ID,quantity,selling_price)"
                         + "VALUES (?,?,?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ps.setInt(1, object.getItemId());
@@ -66,15 +66,15 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 String query
-                        = "SELECT itemID, transactionID, quantity, sellingPrice FROM TransactionDetail";
+                        = "SELECT item_ID, transaction_ID, quantity, selling_Price FROM Transaction_Detail";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     TransactionDetail detail = new TransactionDetail();
-                    detail.setItemId(rs.getInt("itemID"));
-                    detail.setTransactionId(rs.getInt("transactionID"));
+                    detail.setItemId(rs.getInt("item_ID"));
+                    detail.setTransactionId(rs.getInt("transaction_ID"));
                     detail.setQuantity(rs.getInt("quantity"));
-                    detail.setSellingPrice(rs.getInt("sellingPrice"));
+                    detail.setSellingPrice(rs.getInt("selling_Price"));
                     categories.add(detail);
                 }
             }

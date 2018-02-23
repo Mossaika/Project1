@@ -11,6 +11,7 @@ import com.sales.dao.TransactionDetailDaoImpl;
 import com.sales.entity.Cart;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
+import com.sales.entity.TransactionDetail;
 import com.sales.utility.TextUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -209,6 +210,7 @@ public class CashierFormController implements Initializable {
     @FXML
     private void btnChkoutAction(ActionEvent event) {
         if (!carts.isEmpty()) {
+            Item d = new Item();
             Transaction transaction = new Transaction();
             transaction.setId(getTransactionDao().showAllData().size() + 1);
             transaction.setPayment(0);
@@ -218,6 +220,19 @@ public class CashierFormController implements Initializable {
             }
             transaction.setUserId(mainController.getSelectedUser());
             getTransactionDao().addData(transaction);
+            for (Cart cart : carts) {
+                TransactionDetail transactionDetail = new TransactionDetail();
+                transactionDetail.setItemId(cart.getId());
+                transactionDetail.setQuantity(cart.getQty());
+                transactionDetail.setSellingPrice(cart.getPrice());
+                transactionDetail.setTransactionId(transaction.getId());
+                getTransactionDetailDao().addData(transactionDetail);
+                d.setId(cart.getId());
+                d.setName(cart.getName());
+                d.setPrice(cart.getPrice());
+//                d.setStock(stok dari tabel item di DB - cart.getStock());
+                getItemDao().updateData(d);
+            }
             System.out.println(mainController.getSelectedUser().getId());
             carts.clear();
         }
