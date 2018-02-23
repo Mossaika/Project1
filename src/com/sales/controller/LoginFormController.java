@@ -25,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -96,9 +97,9 @@ public class LoginFormController implements Initializable {
                     AnchorPane pane = loader.load();
                     Scene scene = new Scene(pane);
                     secondStage.setScene(scene);
-//                    secondStage.initOwner(anchorPane.getScene().getWindow());
-//                    secondStage.initModality(Modality.WINDOW_MODAL);
-                    anchorPane.getScene().getWindow().hide();
+                    secondStage.initOwner(anchorPane.getScene().getWindow());
+                    secondStage.initModality(Modality.WINDOW_MODAL);
+//                    anchorPane.getScene().getWindow().hide();
                     secondStage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(LoginFormController.class.getName()).
