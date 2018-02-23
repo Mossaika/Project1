@@ -124,13 +124,10 @@ public class LoginFormController implements Initializable {
                     Logger.getLogger(LoginFormController.class.getName()).
                             log(Level.SEVERE, null, ex);
                 }
-            } else {
-                TextUtil.alerting(Alert.AlertType.INFORMATION, "bukan owner",
-                        selectedUser.getRoleId().getName());
             }
         } else {
-            TextUtil.alerting(Alert.AlertType.ERROR, "invalid user password",
-                    "password/id yang anda masukkan salah");
+            TextUtil.alerting(Alert.AlertType.ERROR, "Invalid Login",
+                    "Username/password yang anda masukkan salah!");
         }
     }
 }

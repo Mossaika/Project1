@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -83,6 +84,15 @@ public class MainFormController implements Initializable {
     private ObservableList<Transaction> transactions;
     private TransactionDaoImpl transactionDao;
 
+    @FXML
+    private Button btnUpdateItem;
+    @FXML
+    private Button btnDeleteItem;
+    @FXML
+    private Button btnUpdateUser;
+    @FXML
+    private Button btnDeleteUser;
+
     public TransactionDaoImpl getTransactionDao() {
         if (transactionDao == null) {
             transactionDao = new TransactionDaoImpl();
@@ -136,12 +146,21 @@ public class MainFormController implements Initializable {
         return users;
     }
 
+    public Item selectedItem;
+    public int selectedItemId;
+    public User selectedUser;
+    public int selectedUserId;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        btnUpdateItem.setDisable(true);
+        btnDeleteItem.setDisable(true);
+        btnUpdateUser.setDisable(true);
+        btnDeleteUser.setDisable(true);
         highestSelling.setDisable(true);
         cashIn.setDisable(true);
 
@@ -169,7 +188,7 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnAddItemAction(ActionEvent event) {
-        if (!TextUtil.isEmptyField(txtItemName)) {
+        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)) {
             Item d = new Item();
             d.setName(txtItemName.getText().trim());
             d.setPrice(Integer.valueOf(txtItemPrice.getText().trim()));
@@ -183,14 +202,35 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnUpdateItemAction(ActionEvent event) {
+        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)) {
+            Item d = new Item();
+            d.setId(selectedItemId);
+            d.setName(txtItemName.getText().trim());
+            d.setPrice(Integer.valueOf(txtItemPrice.getText().trim()));
+            d.setStock(Integer.valueOf(txtItemStock.getText().trim()));
+            if (getItemDao().updateData(d) == 1) {
+                getItems().clear();
+                getItems().addAll(getItemDao().showAllData());
+            }
+        }
     }
 
     @FXML
     private void btnDeleteItemAction(ActionEvent event) {
+        Item d = new Item();
+        d.setId(selectedItemId);
+        if (getItemDao().deleteData(d) == 1) {
+            btnUpdateItem.setDisable(true);
+            btnDeleteItem.setDisable(true);
+            getItems().clear();
+            getItems().addAll(getItemDao().showAllData());
+        }
     }
 
     @FXML
     private void btnCancelItemAction(ActionEvent event) {
+        btnUpdateItem.setDisable(true);
+        btnDeleteItem.setDisable(true);
         txtItemName.clear();
         txtItemPrice.clear();
         txtItemStock.clear();
@@ -198,7 +238,8 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnAddUserAction(ActionEvent event) {
-        if (!TextUtil.isEmptyField(txtUserName)) {
+        if (!TextUtil.
+                isEmptyField(txtUserUsername, txtUserPassword, txtUserName)) {
             User d = new User();
             d.setUsername(txtUserUsername.getText().trim());
             d.setPassword(txtUserPassword.getText().trim());
@@ -212,14 +253,36 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnUpdateUserAction(ActionEvent event) {
+        if (!TextUtil.
+                isEmptyField(txtUserUsername, txtUserPassword, txtUserName)) {
+            User d = new User();
+            d.setId(selectedUserId);
+            d.setUsername(txtUserUsername.getText().trim());
+            d.setPassword(txtUserPassword.getText().trim());
+            d.setName(txtUserName.getText().trim());
+            if (getUserDao().updateData(d) == 1) {
+                getUsers().clear();
+                getUsers().addAll(getUserDao().showAllData());
+            }
+        }
     }
 
     @FXML
     private void btnDeleteUserAction(ActionEvent event) {
+        User d = new User();
+        d.setId(selectedUserId);
+        if (getUserDao().deleteData(d) == 1) {
+            btnUpdateUser.setDisable(true);
+            btnDeleteUser.setDisable(true);
+            getUsers().clear();
+            getUsers().addAll(getUserDao().showAllData());
+        }
     }
 
     @FXML
     private void btnCancelUserAction(ActionEvent event) {
+        btnUpdateUser.setDisable(true);
+        btnDeleteUser.setDisable(true);
         txtUserUsername.clear();
         txtUserPassword.clear();
         txtUserName.clear();
@@ -227,14 +290,35 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void tblTransactionClickedAction(MouseEvent event) {
+
     }
 
     @FXML
     private void tblItemClickedAction(MouseEvent event) {
+        selectedItem = tableItem.getSelectionModel().getSelectedItem();
+        btnUpdateItem.setDisable(false);
+        btnDeleteItem.setDisable(false);
+        if (selectedItem != null) {
+            txtItemName.setText(selectedItem.getName());
+            txtItemPrice.setText(String.valueOf(selectedItem.getPrice()));
+            txtItemStock.setText(String.valueOf(selectedItem.getStock()));
+            selectedItemId = selectedItem.getId();
+        }
     }
 
     @FXML
     private void tblUserClickedAction(MouseEvent event) {
+        selectedUser = tableUser.getSelectionModel().getSelectedItem();
+        btnUpdateUser.setDisable(false);
+        btnDeleteUser.setDisable(true);
+        if (selectedUser != null) {
+            txtUserUsername.setText(selectedUser.getUsername());
+            txtUserName.setText(String.valueOf(selectedUser.getName()));
+            selectedUserId = selectedUser.getId();
+            if (selectedUser.getRoleId().getId() != 1) {
+                btnDeleteUser.setDisable(false);
+            }
+        }
     }
 
 }

@@ -104,14 +104,17 @@ public class UserDaoImpl implements DaoService<User> {
                 .observableArrayList();
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
-                String query = "SELECT id, username, name FROM User";
+                String query = "SELECT id, username, name, role_id FROM User";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     User user = new User();
+                    Role role = new Role();
                     user.setId(rs.getInt("id"));
                     user.setUsername(rs.getString("username"));
                     user.setName(rs.getString("name"));
+                    role.setId(rs.getInt("role_id"));
+                    user.setRoleId(role);
                     categories.add(user);
                 }
             }

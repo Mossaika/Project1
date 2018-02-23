@@ -106,8 +106,8 @@
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Button mnemonicParsing="false" onAction="#btnAddItemAction" text="Add" />
-                              <Button mnemonicParsing="false" onAction="#btnUpdateItemAction" text="Update" />
-                              <Button mnemonicParsing="false" onAction="#btnDeleteItemAction" text="Delete" />
+                              <Button fx:id="btnUpdateItem" mnemonicParsing="false" onAction="#btnUpdateItemAction" text="Update" />
+                              <Button fx:id="btnDeleteItem" mnemonicParsing="false" onAction="#btnDeleteItemAction" text="Delete" />
                               <Button mnemonicParsing="false" onAction="#btnCancelItemAction" text="Cancel" />
                            </children>
                         </HBox>
@@ -153,8 +153,8 @@
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Button mnemonicParsing="false" onAction="#btnAddUserAction" text="Add" />
-                              <Button mnemonicParsing="false" onAction="#btnUpdateUserAction" text="Update" />
-                              <Button mnemonicParsing="false" onAction="#btnDeleteUserAction" text="Delete" />
+                              <Button fx:id="btnUpdateUser" mnemonicParsing="false" onAction="#btnUpdateUserAction" text="Update" />
+                              <Button fx:id="btnDeleteUser" mnemonicParsing="false" onAction="#btnDeleteUserAction" text="Delete" />
                               <Button mnemonicParsing="false" onAction="#btnCancelUserAction" text="Cancel" />
                            </children>
                         </HBox>
