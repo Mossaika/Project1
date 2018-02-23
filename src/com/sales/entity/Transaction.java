@@ -49,19 +49,20 @@ public class Transaction {
     public IntegerProperty paymentProperty() {
         return payment;
     }
-    private final ObjectProperty<Date> string = new SimpleObjectProperty<>();
+    private final ObjectProperty<Date> date = new SimpleObjectProperty<>();
 
-    public Date getString() {
-        return string.get();
+    public Date getDate() {
+        return date.get();
     }
 
-    public void setString(Date value) {
-        string.set(value);
+    public void setDate(Date value) {
+        date.set(value);
     }
 
-    public ObjectProperty stringProperty() {
-        return string;
+    public ObjectProperty dateProperty() {
+        return date;
     }
+
     private final ObjectProperty<User> userId = new SimpleObjectProperty<>();
 
     public User getUserId() {

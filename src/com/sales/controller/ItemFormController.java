@@ -7,7 +7,11 @@ package com.sales.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -15,6 +19,23 @@ import javafx.fxml.Initializable;
  * @author Developer
  */
 public class ItemFormController implements Initializable {
+
+    @FXML
+    private TextField itemNameField;
+    @FXML
+    private TextField itemPriceField;
+    @FXML
+    private TextField itemStockField;
+    @FXML
+    private TableView<?> tableItem;
+    @FXML
+    private TableColumn<?, ?> colItemId;
+    @FXML
+    private TableColumn<?, ?> colItemName;
+    @FXML
+    private TableColumn<?, ?> colItemPrice;
+    @FXML
+    private TableColumn<?, ?> colItemStock;
 
     /**
      * Initializes the controller class.

@@ -30,14 +30,13 @@ public class UserDaoImpl implements DaoService<User> {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 connection.setAutoCommit(false);
                 String query
-                        = "INSERT INTO User(id,name,username,password,roleID)"
-                        + "VALUES (?,?,?,?,?)";
+                        = "INSERT INTO User(name,username,password,role_id)"
+                        + "VALUES (?,?,?,2)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getId());
-                ps.setString(2, object.getName());
-                ps.setString(3, object.getUsername());
-                ps.setString(4, object.getPassword());
-                ps.setInt(5, object.getRoleID().getId());
+                ps.setString(1, object.getName());
+                ps.setString(2, object.getUsername());
+                ps.setString(3, object.getPassword());
+//                ps.setInt(4, object.getRoleId().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -141,7 +140,7 @@ public class UserDaoImpl implements DaoService<User> {
                 Role role = new Role();
                 role.setId(rs.getInt("u.role_id"));
                 role.setName(rs.getString("r.name"));
-                user.setRoleID(role);
+                user.setRoleId(role);
                 return user;
             }
         } catch (ClassNotFoundException | SQLException ex) {

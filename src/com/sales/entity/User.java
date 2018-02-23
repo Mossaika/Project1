@@ -92,7 +92,7 @@ public class User {
 
     @Override
     public String toString() {
-        return String.valueOf(getId());
+        return String.valueOf(getId()) + getUsername();
     }
 
 }

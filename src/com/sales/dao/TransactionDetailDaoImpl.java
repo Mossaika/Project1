@@ -32,8 +32,8 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
                         = "INSERT INTO TransactionDetail(itemID,transactionID,quantity,sellingprice)"
                         + "VALUES (?,?,?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getItemID());
-                ps.setInt(2, object.getTransactionID());
+                ps.setInt(1, object.getItemId());
+                ps.setInt(2, object.getTransactionId());
                 ps.setInt(3, object.getQuantity());
                 ps.setInt(4, object.getSellingPrice());
                 if (ps.executeUpdate() != 0) {
@@ -71,8 +71,8 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     TransactionDetail detail = new TransactionDetail();
-                    detail.setItemID(rs.getInt("itemID"));
-                    detail.setTransactionID(rs.getInt("transactionID"));
+                    detail.setItemId(rs.getInt("itemID"));
+                    detail.setTransactionId(rs.getInt("transactionID"));
                     detail.setQuantity(rs.getInt("quantity"));
                     detail.setSellingPrice(rs.getInt("sellingPrice"));
                     categories.add(detail);

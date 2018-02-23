@@ -1,121 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sales.controller.MainFormController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sales.controller.MainFormController">
    <children>
-      <GridPane layoutX="65.0" layoutY="92.0" prefHeight="364.0" prefWidth="349.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <GridPane AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="289.0" minHeight="10.0" prefHeight="115.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="289.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="289.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="452.0" minHeight="10.0" prefHeight="285.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="132.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="458.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Nama Barang" />
-                  <Label text="Harga Barang" GridPane.rowIndex="1" />
-                  <Label text="Stok" GridPane.rowIndex="2" />
-                  <TextField fx:id="itemNameField" prefHeight="25.0" prefWidth="464.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="itemPriceField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="itemStockField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#btnCancelAction" text="Cancel" />
-                        <Button mnemonicParsing="false" onAction="#btnAddAction" text="Add" />
-                        <Button mnemonicParsing="false" onAction="#btnSaveAction" text="Save" />
-                     </children>
-                  </HBox>
-                  <ComboBox fx:id="comboItem" prefWidth="150.0" GridPane.rowIndex="3" />
-               </children>
-            </GridPane>
-            <TableView fx:id="tableTransaction" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.rowIndex="3">
-              <columns>
-                <TableColumn fx:id="colDate" prefWidth="129.0" text="Tanggal" />
-                <TableColumn fx:id="colTransactionId" prefWidth="124.0" text="ID Transaksi" />
-                  <TableColumn fx:id="colUserId" prefWidth="94.0" text="ID User" />
-                  <TableColumn fx:id="colPayment" prefWidth="112.0" text="Pembayaran" />
-              </columns>
-            </TableView>
-            <GridPane GridPane.rowIndex="2">
+            <GridPane prefHeight="364.0" prefWidth="349.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="289.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="541.0" minHeight="10.0" prefHeight="530.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="tableTransaction" onMouseClicked="#tblTransactionClickedAction" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="colTransactionDate" prefWidth="122.0" text="Tanggal" />
+                      <TableColumn fx:id="colTransactionId" text="ID Transaksi" />
+                        <TableColumn fx:id="colTransactionUser" prefWidth="107.0" text="Username" />
+                        <TableColumn fx:id="colTransactionPayment" prefWidth="119.0" text="Pembayaran" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Barang dengan Penjualan Tertinggi" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <TextField fx:id="highestSelling" prefHeight="25.0" prefWidth="188.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label text="Kas Masuk Tahun Ini" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <TextField fx:id="cashIn" prefHeight="25.0" prefWidth="188.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1">
+              <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="284.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="461.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="78.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="368.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Label text="Barang dengan Penjualan Tertinggi" />
+                        <Label text="Nama Barang" />
+                        <Label text="Harga Barang" GridPane.rowIndex="1" />
+                        <Label text="Stok" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtItemName" prefHeight="25.0" prefWidth="464.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtItemPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtItemStock" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#btnAddItemAction" text="Add" />
+                              <Button mnemonicParsing="false" onAction="#btnUpdateItemAction" text="Update" />
+                              <Button mnemonicParsing="false" onAction="#btnDeleteItemAction" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#btnCancelItemAction" text="Cancel" />
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-                     <children>
-                        <TextField fx:id="highestSelling" prefHeight="25.0" prefWidth="188.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                     <children>
-                        <Label text="Kas Masuk Tahun Ini" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <TextField fx:id="cashIn" prefHeight="25.0" prefWidth="188.0" />
-                     </children>
-                  </HBox>
+                  </GridPane>
+                  <TableView fx:id="tableItem" onMouseClicked="#tblItemClickedAction" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="colItemId" prefWidth="61.0" text="ID Barang" />
+                      <TableColumn fx:id="colItemName" prefWidth="193.0" text="Nama Barang" />
+                        <TableColumn fx:id="colItemPrice" minWidth="5.0" prefWidth="129.0" text="Harga" />
+                        <TableColumn fx:id="colItemStock" prefWidth="49.0" text="Stok" />
+                    </columns>
+                  </TableView>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </GridPane.margin>
             </GridPane>
-            <GridPane GridPane.rowIndex="1">
+            <GridPane GridPane.columnIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="133.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="457.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="287.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="461.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="ID User" />
-                  <Label text="Username" GridPane.rowIndex="1" />
-                  <Label text="Password" GridPane.rowIndex="2" />
-                  <Label text="Nama" GridPane.rowIndex="3" />
-                  <ComboBox fx:id="comboUser" prefWidth="150.0" GridPane.rowIndex="4" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="56.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="390.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnSaveUserAction" text="Save" />
-                        <Button mnemonicParsing="false" onAction="#btnDeleteUserAction" text="Delete" />
+                        <Label text="Username" />
+                        <Label text="Password" GridPane.rowIndex="1" />
+                        <Label text="Nama" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#btnAddUserAction" text="Add" />
+                              <Button mnemonicParsing="false" onAction="#btnUpdateUserAction" text="Update" />
+                              <Button mnemonicParsing="false" onAction="#btnDeleteUserAction" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#btnCancelUserAction" text="Cancel" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="txtUserUsername" GridPane.columnIndex="1" />
+                        <PasswordField fx:id="txtUserPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtUserName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
-                  </HBox>
-                  <TextField fx:id="txtUserId" GridPane.columnIndex="1" />
-                  <TextField fx:id="txtUserLoginId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtUserPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="txtUserName" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  </GridPane>
+                  <TableView fx:id="tableUser" onMouseClicked="#tblUserClickedAction" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="colUserId" prefWidth="46.0" text="ID User" />
+                      <TableColumn fx:id="colUserUsername" prefWidth="104.0" text="Username" />
+                        <TableColumn fx:id="colUserName" prefWidth="283.0" text="Nama" />
+                    </columns>
+                  </TableView>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </GridPane.margin>
             </GridPane>
          </children>
       </GridPane>

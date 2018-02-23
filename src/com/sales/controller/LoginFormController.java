@@ -86,25 +86,25 @@ public class LoginFormController implements Initializable {
 
         } else if (getUserDao().getData(user) != null) {
             selectedUser = getUserDao().getData(user);
-            if (selectedUser.getRoleID().getName().equalsIgnoreCase("owner")) {
+            if (selectedUser.getRoleId().getName().equalsIgnoreCase("owner")) {
                 try {
+                    Stage secondStage = new Stage();
+                    secondStage.setTitle("Main Form");
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(MainApp.class.getResource(
                             "view/MainForm.fxml"));
                     AnchorPane pane = loader.load();
                     Scene scene = new Scene(pane);
-                    Stage secondStage = new Stage();
                     secondStage.setScene(scene);
-                    secondStage.setTitle("Main Form");
-//                secondStage.initOwner(anchorPane.getScene().getWindow());
-//                secondStage.initModality(Modality.NONE);
+//                    secondStage.initOwner(anchorPane.getScene().getWindow());
+//                    secondStage.initModality(Modality.WINDOW_MODAL);
                     anchorPane.getScene().getWindow().hide();
                     secondStage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(LoginFormController.class.getName()).
                             log(Level.SEVERE, null, ex);
                 }
-            } else if (selectedUser.getRoleID().getName().equalsIgnoreCase(
+            } else if (selectedUser.getRoleId().getName().equalsIgnoreCase(
                     "cashier")) {
                 try {
                     FXMLLoader loader = new FXMLLoader();
@@ -125,7 +125,7 @@ public class LoginFormController implements Initializable {
                 }
             } else {
                 TextUtil.alerting(Alert.AlertType.INFORMATION, "bukan owner",
-                        selectedUser.getRoleID().getName());
+                        selectedUser.getRoleId().getName());
             }
         } else {
             TextUtil.alerting(Alert.AlertType.ERROR, "invalid user password",

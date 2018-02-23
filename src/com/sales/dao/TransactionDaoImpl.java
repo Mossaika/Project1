@@ -33,7 +33,7 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
                         + "VALUES (?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ps.setInt(1, object.getPayment());
-                ps.setInt(2, object.getUserID().getId());
+                ps.setInt(2, object.getUserId().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -64,7 +64,7 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 String query
-                        = "SELECT t.id, t.payment, t.trans_date, u.id as user_id FROM transaction t JOIN user u ON u.id = t.user_id";
+                        = "SELECT t.id, t.payment, t.trans_date, u.username FROM transaction t JOIN user u ON u.id = t.user_id";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -74,8 +74,8 @@ public class TransactionDaoImpl implements DaoService<Transaction> {
                     transaction.setDate(rs.getTimestamp("trans_date"));
 
                     User user = new User();
-                    user.setId(rs.getInt("user_id"));
-                    transaction.setUserID(user);
+                    user.setName(rs.getString("username"));
+                    transaction.setUserId(user);
                     transactions.add(transaction);
                 }
             }
