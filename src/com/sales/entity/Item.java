@@ -5,58 +5,78 @@
  */
 package com.sales.entity;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  *
  * @author Developer
  */
 public class Item {
 
-    private int id;
-    private String name;
-    private int price;
-    private int stock;
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     public int getId() {
+        return id.get();
+    }
+
+    public void setId(int value) {
+        id.set(value);
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    private int id;
+//    private String name;
+//    private int price;
+//    private int stock;
+    private final StringProperty name = new SimpleStringProperty();
 
     public String getName() {
+        return name.get();
+    }
+
+    public void setName(String value) {
+        name.set(value);
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private final IntegerProperty price = new SimpleIntegerProperty();
 
     public int getPrice() {
+        return price.get();
+    }
+
+    public void setPrice(int value) {
+        price.set(value);
+    }
+
+    public IntegerProperty priceProperty() {
         return price;
     }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
+    private final IntegerProperty stock = new SimpleIntegerProperty();
 
     public int getStock() {
+        return stock.get();
+    }
+
+    public void setStock(int value) {
+        stock.set(value);
+    }
+
+    public IntegerProperty stockProperty() {
         return stock;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-//    public Item(int id, String name, int price, int stock) {
-//        this.id = id;
-//        this.name = name;
-//        this.price = price;
-//        this.stock = stock;
-//    }
     @Override
     public String toString() {
-        return name + " - " + id;
+        return String.valueOf(getId()) + " - " + getName();
     }
 
 }

@@ -5,68 +5,94 @@
  */
 package com.sales.entity;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  *
  * @author Developer
  */
 public class User {
 
-    private int id;
-    private String name;
-    private String username;
-    private String password;
-    private Role roleID;
-
-    public User(int id, String name, String username, String password,
-            Role roleID) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.roleID = roleID;
-    }
-
-    public User() {
-    }
-
-    public Role getRoleID() {
-        return roleID;
-    }
-
-    public void setRoleID(Role roleID) {
-        this.roleID = roleID;
-    }
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     public int getId() {
+        return id.get();
+    }
+
+    public void setId(int value) {
+        id.set(value);
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    private int id;
+//    private String name;
+//    private String username;
+//    private String password;
+//    private Role roleID;
+    private final StringProperty name = new SimpleStringProperty();
 
     public String getName() {
+        return name.get();
+    }
+
+    public void setName(String value) {
+        name.set(value);
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private final StringProperty username = new SimpleStringProperty();
 
     public String getUsername() {
+        return username.get();
+    }
+
+    public void setUsername(String value) {
+        username.set(value);
+    }
+
+    public StringProperty usernameProperty() {
         return username;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    private final StringProperty password = new SimpleStringProperty();
 
     public String getPassword() {
-        return password;
+        return password.get();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String value) {
+        password.set(value);
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+    private final ObjectProperty<Role> roleId = new SimpleObjectProperty<>();
+
+    public Role getRoleId() {
+        return roleId.get();
+    }
+
+    public void setRoleId(Role value) {
+        roleId.set(value);
+    }
+
+    public ObjectProperty roleIdProperty() {
+        return roleId;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getId());
     }
 
 }

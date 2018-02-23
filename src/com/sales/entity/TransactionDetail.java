@@ -5,58 +5,72 @@
  */
 package com.sales.entity;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  *
  * @author Developer
  */
 public class TransactionDetail {
 
-    private int itemID;
-    private int transactionID;
-    private int quantity;
-    private int sellingPrice;
+    private final IntegerProperty itemId = new SimpleIntegerProperty();
 
-    public TransactionDetail(int itemID, int transactionID, int quantity,
-            int sellingPrice) {
-        this.itemID = itemID;
-        this.transactionID = transactionID;
-        this.quantity = quantity;
-        this.sellingPrice = sellingPrice;
+    public int getItemId() {
+        return itemId.get();
     }
 
-    public TransactionDetail() {
+    public void setItemId(int value) {
+        itemId.set(value);
     }
 
-    public int getItemID() {
-        return itemID;
+    public IntegerProperty itemIdProperty() {
+        return itemId;
     }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
+//    private int itemID;
+//    private int transactionID;
+//    private int quantity;
+//    private int sellingPrice;
+//
+    private final IntegerProperty transactionId = new SimpleIntegerProperty();
+
+    public int getTransactionId() {
+        return transactionId.get();
     }
 
-    public int getTransactionID() {
-        return transactionID;
+    public void setTransactionId(int value) {
+        transactionId.set(value);
     }
 
-    public void setTransactionID(int transactionID) {
-        this.transactionID = transactionID;
+    public IntegerProperty transactionIdProperty() {
+        return transactionId;
     }
+    private final IntegerProperty quantity = new SimpleIntegerProperty();
 
     public int getQuantity() {
+        return quantity.get();
+    }
+
+    public void setQuantity(int value) {
+        quantity.set(value);
+    }
+
+    public IntegerProperty quantityProperty() {
         return quantity;
     }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    private final IntegerProperty sellingPrice = new SimpleIntegerProperty();
 
     public int getSellingPrice() {
-        return sellingPrice;
+        return sellingPrice.get();
     }
 
-    public void setSellingPrice(int sellingPrice) {
-        this.sellingPrice = sellingPrice;
+    public void setSellingPrice(int value) {
+        sellingPrice.set(value);
+    }
+
+    public IntegerProperty sellingPriceProperty() {
+        return sellingPrice;
     }
 
 }

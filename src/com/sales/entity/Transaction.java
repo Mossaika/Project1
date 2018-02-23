@@ -6,6 +6,10 @@
 package com.sales.entity;
 
 import java.util.Date;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  *
@@ -13,51 +17,63 @@ import java.util.Date;
  */
 public class Transaction {
 
-    private int id;
-    private int payment;
-    private Date date;
-    private User userID;
-
-    public Transaction(int id, int payment, Date date, User userID) {
-        this.id = id;
-        this.payment = payment;
-        this.date = date;
-        this.userID = userID;
-    }
-
-    public Transaction() {
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public User getUserID() {
-        return userID;
-    }
-
-    public void setUserID(User userID) {
-        this.userID = userID;
-    }
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     public int getId() {
+        return id.get();
+    }
+
+    public void setId(int value) {
+        id.set(value);
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    private int id;
+//    private int payment;
+//    private Date date;
+//    private User userID;
+//
+    private final IntegerProperty payment = new SimpleIntegerProperty();
 
     public int getPayment() {
-        return payment;
+        return payment.get();
     }
 
-    public void setPayment(int payment) {
-        this.payment = payment;
+    public void setPayment(int value) {
+        payment.set(value);
+    }
+
+    public IntegerProperty paymentProperty() {
+        return payment;
+    }
+    private final ObjectProperty<Date> string = new SimpleObjectProperty<>();
+
+    public Date getString() {
+        return string.get();
+    }
+
+    public void setString(Date value) {
+        string.set(value);
+    }
+
+    public ObjectProperty stringProperty() {
+        return string;
+    }
+    private final ObjectProperty<User> userId = new SimpleObjectProperty<>();
+
+    public User getUserId() {
+        return userId.get();
+    }
+
+    public void setUserId(User value) {
+        userId.set(value);
+    }
+
+    public ObjectProperty userIdProperty() {
+        return userId;
     }
 
 }
