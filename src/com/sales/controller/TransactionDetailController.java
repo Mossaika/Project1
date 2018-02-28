@@ -98,7 +98,7 @@ public class TransactionDetailController implements Initializable {
         subtotal.setDisable(true);
 
         colItemId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-//        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         colItemSellprice.setCellValueFactory(new PropertyValueFactory<>(
                 "sellingPrice"));
         colItemQuantity.setCellValueFactory(new PropertyValueFactory<>(

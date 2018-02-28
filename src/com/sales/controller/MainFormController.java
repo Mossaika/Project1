@@ -11,10 +11,16 @@ import com.sales.dao.TransactionDaoImpl;
 import com.sales.dao.UserDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
+import com.sales.entity.TransactionDetail;
 import com.sales.entity.User;
+import com.sales.utility.DBUtil;
 import com.sales.utility.TextUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -175,6 +181,7 @@ public class MainFormController implements Initializable {
         highestSelling.setDisable(true);
         cashIn.setDisable(true);
         cashIn.setText(String.valueOf(hitungKas()));
+        highestSelling.setText(String.valueOf(selectMaxCountItem()));
 
         tableTransaction.setItems(getTransactions());
         colTransactionDate.setCellValueFactory(
@@ -365,4 +372,26 @@ public class MainFormController implements Initializable {
         return kas;
     }
 
+    public String selectMaxCountItem() {
+        String max = null;
+        String query = "SELECT item_name, SUM(quantity) AS Count "
+                + "FROM transaction_detail " + "GROUP BY item_id "
+                + "ORDER BY Count DESC " + "LIMIT 1";
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {;
+                PreparedStatement ps = connection.prepareStatement(query);
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    TransactionDetail detail = new TransactionDetail();
+                    detail.setItemName(rs.getString("item_name"));
+                    max = detail.getItemName();
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return max;
+    }
 }

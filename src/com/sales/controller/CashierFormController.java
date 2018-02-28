@@ -237,6 +237,7 @@ public class CashierFormController implements Initializable {
             for (Cart cart : carts) {
                 TransactionDetail transactionDetail = new TransactionDetail();
                 transactionDetail.setItemId(new Item(cart.getId()));
+                transactionDetail.setItemName(cart.getName());
                 transactionDetail.setQuantity(cart.getQty());
                 transactionDetail.setSellingPrice(cart.getPrice());
                 transactionDetail.setTransactionId(transaction.getId());
