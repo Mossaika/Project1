@@ -112,7 +112,6 @@ public class TransactionDetailController implements Initializable {
     void setMainController(MainFormController aThis) {
         this.mainController = aThis;
         tblTransactionDetail.setItems(getTransactionDetails());
-        tblItem.setItems(getItems());
         totalQty.setText(String.valueOf(countQty()));
         subtotal.setText(String.valueOf(countSubtotal()));
     }
