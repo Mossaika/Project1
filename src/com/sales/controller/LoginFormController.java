@@ -5,12 +5,14 @@
  */
 package com.sales.controller;
 
+import com.sales.Encrypt;
 import com.sales.MainApp;
 import com.sales.dao.UserDaoImpl;
 import com.sales.entity.User;
 import com.sales.utility.TextUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,10 +79,11 @@ public class LoginFormController implements Initializable {
     }
 
     @FXML
-    private void btnLoginAction(ActionEvent event) {
+    private void btnLoginAction(ActionEvent event) throws
+            NoSuchAlgorithmException {
         User user = new User();
         user.setUsername(txtUsername.getText());
-        user.setPassword(txtPassword.getText());
+        user.setPassword(Encrypt.SHAHash(txtPassword.getText()));
 //        System.out.println(txtUsername.getText());
 //        System.out.println(txtPassword.getText());
         if (txtUsername.getText().trim().isEmpty() || txtPassword.getText().

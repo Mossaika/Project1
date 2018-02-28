@@ -5,9 +5,11 @@
  */
 package com.sales.controller;
 
+import com.sales.Encrypt;
 import com.sales.MainApp;
 import com.sales.dao.ItemDaoImpl;
 import com.sales.dao.TransactionDaoImpl;
+import com.sales.dao.TransactionDetailDaoImpl;
 import com.sales.dao.UserDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
@@ -17,6 +19,7 @@ import com.sales.utility.DBUtil;
 import com.sales.utility.TextUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -162,6 +165,25 @@ public class MainFormController implements Initializable {
         return users;
     }
 
+    // transaction detail stuff
+    private ObservableList<TransactionDetail> transactionDetails;
+    private TransactionDetailDaoImpl transactionDetailDao;
+
+    public TransactionDetailDaoImpl getTransactionDetailDao() {
+        if (transactionDetailDao == null) {
+            transactionDetailDao = new TransactionDetailDaoImpl();
+        }
+        return transactionDetailDao;
+    }
+
+    public ObservableList<TransactionDetail> getTransactionDetails() {
+        if (transactionDetails == null) {
+            transactionDetails = FXCollections.observableArrayList();
+            transactionDetails.addAll(getTransactionDetailDao().showAllData());
+        }
+        return transactionDetails;
+    }
+
     public Item selectedItem;
     public int selectedItemId;
     public User selectedUser;
@@ -227,7 +249,11 @@ public class MainFormController implements Initializable {
             d.setName(txtItemName.getText().trim());
             d.setPrice(Integer.valueOf(txtItemPrice.getText().trim()));
             d.setStock(Integer.valueOf(txtItemStock.getText().trim()));
-            if (getItemDao().updateData(d) == 1) {
+            TransactionDetail t = new TransactionDetail();
+            t.setItemId(d);
+            t.setItemName(d.getName());
+            if (getItemDao().updateData(d) == 1 && getTransactionDetailDao().
+                    updateData(t) == 1) {
                 getItems().clear();
                 getItems().addAll(getItemDao().showAllData());
             }
@@ -256,12 +282,14 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void btnAddUserAction(ActionEvent event) {
+    private void btnAddUserAction(ActionEvent event) throws
+            NoSuchAlgorithmException {
         if (!TextUtil.
                 isEmptyField(txtUserUsername, txtUserPassword, txtUserName)) {
             User d = new User();
             d.setUsername(txtUserUsername.getText().trim());
-            d.setPassword(txtUserPassword.getText().trim());
+            d.setPassword(Encrypt.SHAHash(txtUserPassword.getText().
+                    trim()));
             d.setName(txtUserName.getText().trim());
             if (getUserDao().addData(d) == 1) {
                 getUsers().clear();
@@ -271,13 +299,15 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void btnUpdateUserAction(ActionEvent event) {
+    private void btnUpdateUserAction(ActionEvent event) throws
+            NoSuchAlgorithmException {
         if (!TextUtil.
                 isEmptyField(txtUserUsername, txtUserPassword, txtUserName)) {
             User d = new User();
             d.setId(selectedUserId);
             d.setUsername(txtUserUsername.getText().trim());
-            d.setPassword(txtUserPassword.getText().trim());
+            d.setPassword(Encrypt.SHAHash(txtUserPassword.getText().
+                    trim()));
             d.setName(txtUserName.getText().trim());
             if (getUserDao().updateData(d) == 1) {
                 getUsers().clear();
