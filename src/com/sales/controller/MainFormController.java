@@ -5,6 +5,7 @@
  */
 package com.sales.controller;
 
+import com.sales.MainApp;
 import com.sales.dao.ItemDaoImpl;
 import com.sales.dao.TransactionDaoImpl;
 import com.sales.dao.UserDaoImpl;
@@ -12,14 +13,19 @@ import com.sales.entity.Item;
 import com.sales.entity.Transaction;
 import com.sales.entity.User;
 import com.sales.utility.TextUtil;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -27,6 +33,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -91,6 +100,8 @@ public class MainFormController implements Initializable {
     // transaction stuff goes here
     private ObservableList<Transaction> transactions;
     private TransactionDaoImpl transactionDao;
+    @FXML
+    private AnchorPane mainForm;
 
     public TransactionDaoImpl getTransactionDao() {
         if (transactionDao == null) {
@@ -149,6 +160,7 @@ public class MainFormController implements Initializable {
     public int selectedItemId;
     public User selectedUser;
     public int selectedUserId;
+    public Transaction selectedTransaction;
 
     /**
      * Initializes the controller class.
@@ -162,6 +174,7 @@ public class MainFormController implements Initializable {
         btnDeleteUser.setDisable(true);
         highestSelling.setDisable(true);
         cashIn.setDisable(true);
+        cashIn.setText(String.valueOf(hitungKas()));
 
         tableTransaction.setItems(getTransactions());
         colTransactionDate.setCellValueFactory(
@@ -289,7 +302,31 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void tblTransactionClickedAction(MouseEvent event) {
-
+        selectedTransaction = tableTransaction.getSelectionModel().
+                getSelectedItem();
+        if (selectedTransaction != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource(
+                        "view/TransactionDetail.fxml"));
+                AnchorPane pane = loader.load();
+                TransactionDetailController transactionDetailController
+                        = loader.
+                                getController();
+                transactionDetailController.setMainController(this);
+                Scene scene = new Scene(pane);
+                Stage secondStage = new Stage();
+                secondStage.setScene(scene);
+                secondStage.setTitle("Transaction Detail Form");
+                secondStage.initOwner(mainForm.getScene().getWindow());
+                secondStage.initModality(Modality.NONE);
+                //                    anchorPane.getScene().getWindow().hide();
+                secondStage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MainFormController.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
@@ -318,6 +355,14 @@ public class MainFormController implements Initializable {
                 btnDeleteUser.setDisable(false);
             }
         }
+    }
+
+    private int hitungKas() {
+        int kas = 0;
+        for (Transaction transaction : getTransactions()) {
+            kas += transaction.getPayment();
+        }
+        return kas;
     }
 
 }

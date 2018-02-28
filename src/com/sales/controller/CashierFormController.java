@@ -12,12 +12,21 @@ import com.sales.entity.Cart;
 import com.sales.entity.Item;
 import com.sales.entity.Transaction;
 import com.sales.entity.TransactionDetail;
+import com.sales.utility.DBUtil;
 import com.sales.utility.TextUtil;
+import com.sales.utility.ViewUtil;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +38,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -71,6 +84,7 @@ public class CashierFormController implements Initializable {
     private TableColumn<Cart, String> colCartTotal;
 
     public Item selectedItem;
+    public Cart selectedCart;
 
     // item stuff goes here
     public ObservableList<Item> items;
@@ -222,28 +236,93 @@ public class CashierFormController implements Initializable {
             getTransactionDao().addData(transaction);
             for (Cart cart : carts) {
                 TransactionDetail transactionDetail = new TransactionDetail();
-                transactionDetail.setItemId(cart.getId());
+                transactionDetail.setItemId(new Item(cart.getId()));
                 transactionDetail.setQuantity(cart.getQty());
                 transactionDetail.setSellingPrice(cart.getPrice());
                 transactionDetail.setTransactionId(transaction.getId());
                 getTransactionDetailDao().addData(transactionDetail);
-                d.setId(cart.getId());
-                d.setName(cart.getName());
-                d.setPrice(cart.getPrice());
-//                d.setStock(stok dari tabel item di DB - cart.getStock());
+
+            }
+            for (Item item : getItems()) {
+                d.setId(item.getId());
+                d.setName(item.getName());
+                d.setPrice(item.getPrice());
+                d.setStock(item.getStock());
                 getItemDao().updateData(d);
             }
-            System.out.println(mainController.getSelectedUser().getId());
+//            System.out.println(mainController.getSelectedUser().getId());
             carts.clear();
+
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        HashMap parameters = new HashMap();
+                        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                                "report/report_sales.jasper",
+                                parameters, DBUtil.createMySQLConnection());
+                        JasperViewer jasperViewer
+                                = new JasperViewer(jasperPrint,
+                                        false);
+                        jasperViewer.setVisible(true);
+                    } catch (ClassNotFoundException | SQLException | JRException ex) {
+                        Logger.getLogger(MainFormController.class.getName()).
+                                log(
+                                        Level.SEVERE, null, ex);
+                        ViewUtil.showAlert(Alert.AlertType.ERROR, "Error", ex.
+                                getMessage());
+                    }
+                    return null;
+                }
+            };
+            ExecutorService service = Executors.newCachedThreadPool();
+            service.execute(task);
+            service.shutdown();
         }
     }
 
+//    @FXML
+//    private void mnReport(ActionEvent event) {
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                try {
+//                    HashMap parameters = new HashMap();
+//                    JasperPrint jasperPrint = JasperFillManager.fillReport(
+//                            "report/report_sales.jasper",
+//                            parameters, DBUtil.createMySQLConnection());
+//                    JasperViewer jasperViewer = new JasperViewer(jasperPrint,
+//                            false);
+//                    jasperViewer.setVisible(true);
+//                } catch (ClassNotFoundException | SQLException | JRException ex) {
+//                    Logger.getLogger(MainFormController.class.getName()).log(
+//                            Level.SEVERE, null, ex);
+//                    ViewUtil.showAlert(Alert.AlertType.ERROR, "Error", ex.
+//                            getMessage());
+//                }
+//                return null;
+//            }
+//        };
+//        ExecutorService service = Executors.newCachedThreadPool();
+//        service.execute(task);
+//        service.shutdown();
+//    }
     @FXML
     private void btnRemoveAction(ActionEvent event) {
+        Item d = new Item();
+        for (Item item : getItems()) {
+            if (item.getId() == selectedCart.getId()) {
+                item.setStock(item.getStock() + selectedCart.getQty());
+            }
+        }
+        tableItem.refresh();
+        carts.remove(selectedCart);
+        btnRemove.setDisable(true);
     }
 
     @FXML
     private void tblItemClickedAction(MouseEvent event) {
+        btnRemove.setDisable(true);
         selectedItem = tableItem.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             btnAddCart.setDisable(false);
@@ -252,10 +331,15 @@ public class CashierFormController implements Initializable {
     }
 
     @FXML
-    private void tblCartClickedAction(MouseEvent event) {
+    private void tblCartClickedAction(MouseEvent event
+    ) {
+        btnAddCart.setDisable(true);
+        selectedCart = tableCart.getSelectionModel().getSelectedItem();
+        btnRemove.setDisable(false);
     }
 
-    void setMainController(LoginFormController mainController) {
+    void setMainController(LoginFormController mainController
+    ) {
         this.mainController = mainController;
 
     }

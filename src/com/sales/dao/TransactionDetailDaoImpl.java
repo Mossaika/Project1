@@ -5,6 +5,8 @@
  */
 package com.sales.dao;
 
+import com.sales.entity.Item;
+import com.sales.entity.Transaction;
 import com.sales.entity.TransactionDetail;
 import com.sales.utility.DBUtil;
 import com.sales.utility.DaoService;
@@ -32,7 +34,7 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
                         = "INSERT INTO Transaction_Detail(item_ID,transaction_ID,quantity,selling_price)"
                         + "VALUES (?,?,?,?)";
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, object.getItemId());
+                ps.setInt(1, object.getItemId().getId());
                 ps.setInt(2, object.getTransactionId());
                 ps.setInt(3, object.getQuantity());
                 ps.setInt(4, object.getSellingPrice());
@@ -66,13 +68,44 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 String query
-                        = "SELECT item_ID, transaction_ID, quantity, selling_Price FROM Transaction_Detail";
+                        = "SELECT item_ID, transaction_id, quantity, selling_Price FROM Transaction_Detail";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     TransactionDetail detail = new TransactionDetail();
-                    detail.setItemId(rs.getInt("item_ID"));
-                    detail.setTransactionId(rs.getInt("transaction_ID"));
+                    Item item = new Item();
+                    item.setId(rs.getInt("id"));
+                    item.setName(rs.getString("name"));
+                    detail.setItemId(item);
+                    detail.setTransactionId(rs.getInt("transaction_id"));
+                    detail.setQuantity(rs.getInt("quantity"));
+                    detail.setSellingPrice(rs.getInt("selling_Price"));
+                    categories.add(detail);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return categories;
+    }
+
+    public List<TransactionDetail> showAllData(Transaction object) {
+        ObservableList<TransactionDetail> categories = FXCollections
+                .observableArrayList();
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                String query
+                        = "SELECT item_ID, name, quantity, selling_Price FROM Transaction_Detail JOIN item ON id=item_id "
+                        + "WHERE transaction_id = ? ";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setInt(1, object.getId());
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    TransactionDetail detail = new TransactionDetail();
+                    Item item = new Item();
+                    item.setId(rs.getInt("item_id"));
+                    item.setName(rs.getString("name"));
+                    detail.setItemId(item);
                     detail.setQuantity(rs.getInt("quantity"));
                     detail.setSellingPrice(rs.getInt("selling_Price"));
                     categories.add(detail);

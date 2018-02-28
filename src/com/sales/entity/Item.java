@@ -21,6 +21,10 @@ public class Item {
     public Item() {
     }
 
+    public Item(int id) {
+        this.setId(id);
+    }
+
     public int getId() {
         return id.get();
     }
@@ -85,7 +89,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.valueOf(getId()) + " - " + getName();
+        return String.valueOf(getId());
     }
 
 }

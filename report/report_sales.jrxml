@@ -13,7 +13,7 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<queryString language="SQL">
+	<queryString>
 		<![CDATA[SELECT
      item.`id` AS item_id,
      item.`name` AS item_name,
@@ -38,7 +38,8 @@ FROM
      `item` item INNER JOIN `transaction_detail` transaction_detail ON item.`id` = transaction_detail.`item_id`
      INNER JOIN `transaction` transaction ON transaction_detail.`transaction_id` = transaction.`id`
      INNER JOIN `user` user ON transaction.`user_id` = user.`id`
-     INNER JOIN `role` role ON user.`role_id` = role.`id`]]>
+     INNER JOIN `role` role ON user.`role_id` = role.`id`
+WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 	</queryString>
 	<field name="item_id" class="java.lang.Integer"/>
 	<field name="item_name" class="java.lang.String"/>
@@ -130,7 +131,7 @@ FROM
 				<text><![CDATA[Item ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="202" y="0" width="100" height="20" uuid="3a12ec5c-fafd-4972-b43d-780aa3c0c9f6"/>
+				<reportElement x="302" y="0" width="100" height="20" uuid="3a12ec5c-fafd-4972-b43d-780aa3c0c9f6"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -144,7 +145,7 @@ FROM
 				<text><![CDATA[Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="302" y="0" width="100" height="20" uuid="36bd3975-675a-4188-8574-f8ee6c04cc05"/>
+				<reportElement x="202" y="0" width="100" height="20" uuid="36bd3975-675a-4188-8574-f8ee6c04cc05"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -156,6 +157,18 @@ FROM
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="0" width="100" height="20" uuid="cf94c30a-b9a3-4243-909c-07b27e90633f"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -188,7 +201,7 @@ FROM
 					<textFieldExpression><![CDATA[$F{item_id}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="200" y="0" width="100" height="20" uuid="bd3f2e36-4c73-4f4a-b12d-6bc47d8945c8"/>
+					<reportElement x="300" y="0" width="100" height="20" uuid="bd3f2e36-4c73-4f4a-b12d-6bc47d8945c8"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -200,7 +213,7 @@ FROM
 					<textFieldExpression><![CDATA[$F{transaction_detail_quantity}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="300" y="0" width="100" height="20" uuid="ee4cc045-f429-421e-a8d9-1ec52c3c5ce9"/>
+					<reportElement x="200" y="0" width="100" height="20" uuid="ee4cc045-f429-421e-a8d9-1ec52c3c5ce9"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 						<pen lineWidth="1.0"/>
 						<topPen lineWidth="1.0"/>
@@ -210,6 +223,18 @@ FROM
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{transaction_detail_selling_price}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="400" y="0" width="100" height="20" uuid="c297f210-ebbe-415e-a488-028416b895e2"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{transaction_detail_selling_price}*$F{transaction_detail_quantity}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -223,7 +248,7 @@ FROM
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="302" y="3" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bedc9473-461d-4bfb-aa05-f67a98e8f6b0"/>
+				<reportElement x="402" y="3" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bedc9473-461d-4bfb-aa05-f67a98e8f6b0"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -237,7 +262,7 @@ FROM
 				<textFieldExpression><![CDATA[$F{transaction_payment}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="202" y="3" width="100" height="20" uuid="17744257-d190-4ba7-ae36-238ba346c8a8"/>
+				<reportElement x="302" y="3" width="100" height="20" uuid="17744257-d190-4ba7-ae36-238ba346c8a8"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>

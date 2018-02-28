@@ -6,7 +6,9 @@
 package com.sales.entity;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  *
@@ -14,17 +16,17 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class TransactionDetail {
 
-    private final IntegerProperty itemId = new SimpleIntegerProperty();
+    private final ObjectProperty<Item> itemId = new SimpleObjectProperty<>();
 
-    public int getItemId() {
+    public Item getItemId() {
         return itemId.get();
     }
 
-    public void setItemId(int value) {
+    public void setItemId(Item value) {
         itemId.set(value);
     }
 
-    public IntegerProperty itemIdProperty() {
+    public ObjectProperty itemIdProperty() {
         return itemId;
     }
 
