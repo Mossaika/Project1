@@ -125,7 +125,7 @@ public class LoginFormController implements Initializable {
                     secondStage.setScene(scene);
                     secondStage.setTitle("Cashier Form");
                     secondStage.initOwner(anchorPane.getScene().getWindow());
-                    secondStage.initModality(Modality.NONE);
+                    secondStage.initModality(Modality.WINDOW_MODAL);
 //                    anchorPane.getScene().getWindow().hide();
                     secondStage.show();
                 } catch (IOException ex) {

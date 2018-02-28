@@ -29,20 +29,20 @@ public class TransactionDetail {
     public ObjectProperty itemIdProperty() {
         return itemId;
     }
-    private final ObjectProperty<Item> itemName = new SimpleObjectProperty<>();
 
-    public Item getItemName() {
-        return itemName.get();
-    }
-
-    public void setItemName(Item value) {
-        itemName.set(value);
-    }
-
-    public ObjectProperty itemNameProperty() {
-        return itemName;
-    }
-
+//    private final ObjectProperty<Item> itemName = new SimpleObjectProperty<>();
+//
+//    public Item getItemName() {
+//        return itemName.get();
+//    }
+//
+//    public void setItemName(Item value) {
+//        itemName.set(value);
+//    }
+//
+//    public ObjectProperty itemNameProperty() {
+//        return itemName;
+//    }
 //    private int itemID;
 //    private int transactionID;
 //    private int quantity;

@@ -68,14 +68,13 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 String query
-                        = "SELECT item_ID, transaction_id, quantity, selling_Price FROM Transaction_Detail";
+                        = "SELECT item_ID, transaction_id, quantity, selling_Price FROM Transaction_Detail JOIN item ON id=item_id";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     TransactionDetail detail = new TransactionDetail();
                     Item item = new Item();
-                    item.setId(rs.getInt("id"));
-                    item.setName(rs.getString("name"));
+                    item.setId(rs.getInt("item_id"));
                     detail.setItemId(item);
                     detail.setTransactionId(rs.getInt("transaction_id"));
                     detail.setQuantity(rs.getInt("quantity"));
@@ -95,7 +94,7 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
         try {
             try (Connection connection = DBUtil.createMySQLConnection()) {
                 String query
-                        = "SELECT item_ID, name, quantity, selling_Price FROM Transaction_Detail JOIN item ON id=item_id "
+                        = "SELECT item_ID, quantity, selling_Price FROM Transaction_Detail JOIN item ON id=item_id "
                         + "WHERE transaction_id = ? ";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ps.setInt(1, object.getId());
@@ -104,7 +103,6 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
                     TransactionDetail detail = new TransactionDetail();
                     Item item = new Item();
                     item.setId(rs.getInt("item_id"));
-                    item.setName(rs.getString("name"));
                     detail.setItemId(item);
                     detail.setQuantity(rs.getInt("quantity"));
                     detail.setSellingPrice(rs.getInt("selling_Price"));
@@ -119,7 +117,27 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
 
     @Override
     public TransactionDetail getData(TransactionDetail id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DBUtil.createMySQLConnection()) {
+
+            String query
+                    = "SELECT i.name FROM item i WHERE i.id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id.getItemId().getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TransactionDetail detail = new TransactionDetail();
+                Item item = new Item();
+                item.setStock(rs.getInt("i.name"));
+                item.setId(rs.getInt("i.id"));
+                detail.setItemId(item);
+                detail.setQuantity(rs.getInt("quantity"));
+                detail.setSellingPrice(rs.getInt("selling_Price"));
+                return detail;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return (null);
     }
 
 }

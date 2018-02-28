@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/dao/ItemDaoImpl.java</file>
-            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/dao/UserDaoImpl.java</file>
-            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/controller/LoginFormController.java</file>
+            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/controller/TransactionDetailController.java</file>
+            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/entity/TransactionDetail.java</file>
+            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/entity/Item.java</file>
+            <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/dao/TransactionDetailDaoImpl.java</file>
             <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/controller/MainFormController.java</file>
             <file>file:/E:/PBO2B_1672023/Project1/src/com/sales/controller/CashierFormController.java</file>
         </group>

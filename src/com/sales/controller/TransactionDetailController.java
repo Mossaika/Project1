@@ -5,6 +5,7 @@
  */
 package com.sales.controller;
 
+import com.sales.dao.ItemDaoImpl;
 import com.sales.dao.TransactionDetailDaoImpl;
 import com.sales.entity.Item;
 import com.sales.entity.TransactionDetail;
@@ -45,6 +46,8 @@ public class TransactionDetailController implements Initializable {
     private TableColumn<TransactionDetail, Integer> colItemQuantity;
     @FXML
     private TableColumn<TransactionDetail, String> colTotal;
+    @FXML
+    private TableView<Item> tblItem;
 
     // transaction detail stuff
     private ObservableList<TransactionDetail> transactionDetails;
@@ -66,6 +69,25 @@ public class TransactionDetailController implements Initializable {
         return transactionDetails;
     }
 
+    // item stuff goes here
+    public ObservableList<Item> items;
+    private ItemDaoImpl itemDao;
+
+    public ItemDaoImpl getItemDao() {
+        if (itemDao == null) {
+            itemDao = new ItemDaoImpl();
+        }
+        return itemDao;
+    }
+
+    public ObservableList<Item> getItems() {
+        if (items == null) {
+            items = FXCollections.observableArrayList();
+            items.addAll(getItemDao().showAllData());
+        }
+        return items;
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -74,11 +96,9 @@ public class TransactionDetailController implements Initializable {
         // TODO
         totalQty.setDisable(true);
         subtotal.setDisable(true);
-        totalQty.setText(String.valueOf(countQty()));
-        subtotal.setText(String.valueOf(countSubtotal()));
 
         colItemId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+//        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colItemSellprice.setCellValueFactory(new PropertyValueFactory<>(
                 "sellingPrice"));
         colItemQuantity.setCellValueFactory(new PropertyValueFactory<>(
@@ -92,11 +112,14 @@ public class TransactionDetailController implements Initializable {
     void setMainController(MainFormController aThis) {
         this.mainController = aThis;
         tblTransactionDetail.setItems(getTransactionDetails());
+        tblItem.setItems(getItems());
+        totalQty.setText(String.valueOf(countQty()));
+        subtotal.setText(String.valueOf(countSubtotal()));
     }
 
     private int countQty() {
         int qty = 0;
-        for (TransactionDetail x : getTransactionDetails()) {
+        for (TransactionDetail x : tblTransactionDetail.getItems()) {
             qty += x.getQuantity();
         }
         return qty;
@@ -104,10 +127,9 @@ public class TransactionDetailController implements Initializable {
 
     private int countSubtotal() {
         int sub = 0;
-        for (TransactionDetail x : getTransactionDetails()) {
+        for (TransactionDetail x : tblTransactionDetail.getItems()) {
             sub += x.getQuantity() * x.getSellingPrice();
         }
         return sub;
     }
-
 }

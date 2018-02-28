@@ -281,43 +281,19 @@ public class CashierFormController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void mnReport(ActionEvent event) {
-//        Task<Void> task = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                try {
-//                    HashMap parameters = new HashMap();
-//                    JasperPrint jasperPrint = JasperFillManager.fillReport(
-//                            "report/report_sales.jasper",
-//                            parameters, DBUtil.createMySQLConnection());
-//                    JasperViewer jasperViewer = new JasperViewer(jasperPrint,
-//                            false);
-//                    jasperViewer.setVisible(true);
-//                } catch (ClassNotFoundException | SQLException | JRException ex) {
-//                    Logger.getLogger(MainFormController.class.getName()).log(
-//                            Level.SEVERE, null, ex);
-//                    ViewUtil.showAlert(Alert.AlertType.ERROR, "Error", ex.
-//                            getMessage());
-//                }
-//                return null;
-//            }
-//        };
-//        ExecutorService service = Executors.newCachedThreadPool();
-//        service.execute(task);
-//        service.shutdown();
-//    }
     @FXML
     private void btnRemoveAction(ActionEvent event) {
-        Item d = new Item();
-        for (Item item : getItems()) {
-            if (item.getId() == selectedCart.getId()) {
-                item.setStock(item.getStock() + selectedCart.getQty());
+        if (selectedCart != null) {
+            Item d = new Item();
+            for (Item item : getItems()) {
+                if (item.getId() == selectedCart.getId()) {
+                    item.setStock(item.getStock() + selectedCart.getQty());
+                }
             }
+            tableItem.refresh();
+            carts.remove(selectedCart);
+            btnRemove.setDisable(true);
         }
-        tableItem.refresh();
-        carts.remove(selectedCart);
-        btnRemove.setDisable(true);
     }
 
     @FXML
