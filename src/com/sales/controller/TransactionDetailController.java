@@ -6,9 +6,11 @@
 package com.sales.controller;
 
 import com.sales.dao.TransactionDetailDaoImpl;
+import com.sales.entity.Item;
 import com.sales.entity.TransactionDetail;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,23 +27,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class TransactionDetailController implements Initializable {
 
+    @FXML
     private MainFormController mainController;
     @FXML
-    private TextField totalField;
+    private TextField totalQty;
     @FXML
-    private TextField totalQtyField;
+    private TextField subtotal;
     @FXML
     private TableView<TransactionDetail> tblTransactionDetail;
     @FXML
-    private TableColumn<TransactionDetail, Integer> colItemId;
+    private TableColumn<TransactionDetail, Item> colItemId;
     @FXML
-    private TableColumn<TransactionDetail, String> colItemName;
+    private TableColumn<TransactionDetail, Item> colItemName;
     @FXML
     private TableColumn<TransactionDetail, Integer> colItemSellprice;
     @FXML
     private TableColumn<TransactionDetail, Integer> colItemQuantity;
     @FXML
-    private TableColumn<TransactionDetail, Integer> colTotal;
+    private TableColumn<TransactionDetail, String> colTotal;
 
     // transaction detail stuff
     private ObservableList<TransactionDetail> transactionDetails;
@@ -69,21 +72,42 @@ public class TransactionDetailController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        totalQty.setDisable(true);
+        subtotal.setDisable(true);
+        totalQty.setText(String.valueOf(countQty()));
+        subtotal.setText(String.valueOf(countSubtotal()));
+
         colItemId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-//        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         colItemSellprice.setCellValueFactory(new PropertyValueFactory<>(
                 "sellingPrice"));
         colItemQuantity.setCellValueFactory(new PropertyValueFactory<>(
                 "quantity"));
-//        colTotal.setCellValueFactory((
-//                TableColumn.CellDataFeatures<TransactionDetail, String> param)
-//                -> new SimpleStringProperty(String.valueOf(param.getValue().
-//                        getSellingPrice() * param.getValue().getQuantity())));
+        colTotal.setCellValueFactory((
+                TableColumn.CellDataFeatures<TransactionDetail, String> param)
+                -> new SimpleStringProperty(String.valueOf(param.getValue().
+                        getSellingPrice() * param.getValue().getQuantity())));
     }
 
     void setMainController(MainFormController aThis) {
         this.mainController = aThis;
         tblTransactionDetail.setItems(getTransactionDetails());
+    }
+
+    private int countQty() {
+        int qty = 0;
+        for (TransactionDetail x : getTransactionDetails()) {
+            qty += x.getQuantity();
+        }
+        return qty;
+    }
+
+    private int countSubtotal() {
+        int sub = 0;
+        for (TransactionDetail x : getTransactionDetails()) {
+            sub += x.getQuantity() * x.getSellingPrice();
+        }
+        return sub;
     }
 
 }

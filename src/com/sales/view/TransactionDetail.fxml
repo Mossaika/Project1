@@ -51,10 +51,10 @@
                <children>
                   <Label text="Total Barang" />
                   <Label text="Subtotal" GridPane.rowIndex="1" />
-                  <TextField fx:id="totalField" GridPane.columnIndex="1" />
+                  <TextField fx:id="totalQty" GridPane.columnIndex="1" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="totalQtyField" prefHeight="25.0" prefWidth="518.0" />
+                        <TextField fx:id="subtotal" prefHeight="25.0" prefWidth="518.0" />
                      </children>
                   </HBox>
                </children>
