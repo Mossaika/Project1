@@ -57,29 +57,30 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-//    @Override
-//    public int updateData(TransactionDetail object) {
-//        int result = 0;
-//        try {
-//            try (Connection connection = DBUtil.createMySQLConnection()) {
-//                connection.setAutoCommit(false);
-//                String query
-//                        = "UPDATE transaction_detail SET item_name=? WHERE item_id=?";
-//                PreparedStatement ps = connection.prepareStatement(query);
-//                ps.setString(1, object.getItemName());
-//                ps.setInt(2, object.getItemId().getId());
-//                if (ps.executeUpdate() != 0) {
-//                    connection.commit();
-//                    result = 1;
-//                } else {
-//                    connection.rollback();
-//                }
-//            }
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return result;
-//    }
+    @Override
+    public int updateData(TransactionDetail object) {
+        int result = 0;
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                connection.setAutoCommit(false);
+                String query
+                        = "UPDATE transaction_detail SET item_name=? WHERE item_id=?";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1, object.getItemName());
+                ps.setInt(2, object.getItemId().getId());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+    }
+
     @Override
     public List<TransactionDetail> showAllData() {
         ObservableList<TransactionDetail> categories = FXCollections
@@ -140,11 +141,6 @@ public class TransactionDetailDaoImpl implements DaoService<TransactionDetail> {
 
     @Override
     public TransactionDetail getData(TransactionDetail id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int updateData(TransactionDetail object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

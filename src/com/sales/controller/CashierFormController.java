@@ -128,7 +128,7 @@ public class CashierFormController implements Initializable {
     public ObservableList<Item> getItems() {
         if (items == null) {
             items = FXCollections.observableArrayList();
-            items.addAll(getItemDao().showAllData());
+            items.addAll(getItemDao().showAllData2());
         }
         return items;
     }

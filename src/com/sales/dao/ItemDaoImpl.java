@@ -120,6 +120,30 @@ public class ItemDaoImpl implements DaoService<Item> {
         return categories;
     }
 
+    public List<Item> showAllData2() {
+        ObservableList<Item> categories = FXCollections
+                .observableArrayList();
+        try {
+            try (Connection connection = DBUtil.createMySQLConnection()) {
+                String query
+                        = "SELECT id, name, price, stock FROM Item WHERE stock != 0";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Item item = new Item();
+                    item.setId(rs.getInt("id"));
+                    item.setName(rs.getString("name"));
+                    item.setPrice(rs.getInt("price"));
+                    item.setStock(rs.getInt("stock"));
+                    categories.add(item);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return categories;
+    }
+
     @Override
     public Item getData(Item id) {
         try (Connection connection = DBUtil.createMySQLConnection()) {

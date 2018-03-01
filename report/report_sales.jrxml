@@ -64,36 +64,84 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="102" splitType="Stretch">
+		<band height="110" splitType="Stretch">
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000" uuid="23dfa4ec-86a7-42d3-a9fe-76fc0dc6714e"/>
 				<staticText>
 					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="8c1b14b9-2c22-48df-b2b5-1ee77f5164d0"/>
 					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
 					<textElement verticalAlignment="Bottom">
-						<font isBold="false"/>
+						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cherry Store]]></text>
 				</staticText>
 				<staticText>
 					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="b33f47c7-356c-4c9d-a028-02e1fdc78b3b"/>
 					<textElement textAlignment="Right">
-						<font size="22" isBold="false"/>
+						<font size="22" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Invoice]]></text>
 				</staticText>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#CC0000" uuid="13f4dc61-1ba0-413d-a56c-3b2a7a7d6ad4"/>
+				<reportElement mode="Opaque" x="2" y="70" width="719" height="40" forecolor="#000000" backcolor="#CC0000" uuid="13f4dc61-1ba0-413d-a56c-3b2a7a7d6ad4"/>
 				<textField>
-					<reportElement x="2" y="12" width="300" height="20" forecolor="#FFFFFF" uuid="731effaf-476b-40ef-9346-e69dab306df9"/>
-					<textFieldExpression><![CDATA[$F{user_username} + ' - ' + $F{user_id} + ' - ' + $F{transaction_id}]]></textFieldExpression>
+					<reportElement x="0" y="20" width="202" height="20" forecolor="#FFFFFF" uuid="731effaf-476b-40ef-9346-e69dab306df9"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{user_name}+' - '+$F{user_username}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="75e80db1-b34e-4015-a6da-1aeb23346658"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{transaction_trans_date}]]></textFieldExpression>
 				</textField>
+				<textField>
+					<reportElement x="202" y="20" width="100" height="20" forecolor="#FFFFFF" uuid="fb0bc2fa-7d26-41f3-97c3-8b6653004fed"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{transaction_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="202" height="20" forecolor="#FFFFFF" uuid="854d0b90-d53f-4853-8771-4e99b70829d1"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kasir]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="202" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="da81d2ad-6009-4b23-8c29-bf3bb254c5a7"/>
+					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+						<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+						<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Transaction ID]]></text>
+				</staticText>
 			</frame>
 		</band>
 	</title>
@@ -105,11 +153,11 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 			<staticText>
 				<reportElement x="2" y="0" width="100" height="20" uuid="86be4c8e-1a50-46a1-ac3b-eb9a32748a58"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -119,11 +167,11 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 			<staticText>
 				<reportElement x="102" y="0" width="100" height="20" uuid="cdc32c70-c31a-4c88-9aa4-ed1e19de192f"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -133,11 +181,11 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 			<staticText>
 				<reportElement x="302" y="0" width="100" height="20" uuid="3a12ec5c-fafd-4972-b43d-780aa3c0c9f6"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -147,11 +195,11 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 			<staticText>
 				<reportElement x="202" y="0" width="100" height="20" uuid="36bd3975-675a-4188-8574-f8ee6c04cc05"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -161,13 +209,15 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 			<staticText>
 				<reportElement x="402" y="0" width="100" height="20" uuid="cf94c30a-b9a3-4243-909c-07b27e90633f"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 		</band>
@@ -179,23 +229,23 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 				<textField>
 					<reportElement x="0" y="0" width="100" height="20" uuid="835a771c-3080-41a1-bc13-ee0c9d2983e1"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
-					<textElement verticalAlignment="Middle"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="100" y="0" width="100" height="20" uuid="3d7e8ce7-0032-43a3-b096-e956c23f4ef8"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{item_id}]]></textFieldExpression>
@@ -203,11 +253,11 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 				<textField>
 					<reportElement x="300" y="0" width="100" height="20" uuid="bd3f2e36-4c73-4f4a-b12d-6bc47d8945c8"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{transaction_detail_quantity}]]></textFieldExpression>
@@ -215,25 +265,25 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 				<textField>
 					<reportElement x="200" y="0" width="100" height="20" uuid="ee4cc045-f429-421e-a8d9-1ec52c3c5ce9"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{transaction_detail_selling_price}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="400" y="0" width="100" height="20" uuid="c297f210-ebbe-415e-a488-028416b895e2"/>
 					<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
-					<textElement textAlignment="Right"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{transaction_detail_selling_price}*$F{transaction_detail_quantity}]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -242,7 +292,7 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 	<columnFooter>
 		<band height="23" splitType="Stretch">
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="9f9c76da-2aac-4ad0-917f-bfc95de38afc"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="502" height="1" uuid="9f9c76da-2aac-4ad0-917f-bfc95de38afc"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
@@ -256,7 +306,7 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{transaction_payment}]]></textFieldExpression>
@@ -291,7 +341,9 @@ WHERE transaction_id = (SELECT MAX(id) FROM transaction)]]>
 				</textField>
 				<staticText>
 					<reportElement x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="fc14906d-7041-4499-a79c-9418bfb42370"/>
-					<textElement verticalAlignment="Middle"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
 					<text><![CDATA[Thank you for your purchase!]]></text>
 				</staticText>
 			</frame>

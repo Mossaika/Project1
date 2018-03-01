@@ -140,5 +140,6 @@ public class LoginFormController implements Initializable {
             TextUtil.alerting(Alert.AlertType.ERROR, "Invalid Login",
                     "Username/password yang anda masukkan salah!");
         }
+        txtPassword.clear();
     }
 }

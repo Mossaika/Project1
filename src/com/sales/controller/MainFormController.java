@@ -236,7 +236,9 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnAddItemAction(ActionEvent event) {
-        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)) {
+        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)
+                && TextUtil.isNumber(txtItemPrice.getText()) && TextUtil.
+                isNumber(txtItemStock.getText())) {
             Item d = new Item();
             d.setName(txtItemName.getText().trim());
             d.setPrice(Integer.valueOf(txtItemPrice.getText().trim()));
@@ -250,7 +252,9 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void btnUpdateItemAction(ActionEvent event) {
-        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)) {
+        if (!TextUtil.isEmptyField(txtItemName, txtItemPrice, txtItemStock)
+                && TextUtil.isNumber(txtItemPrice.getText()) && TextUtil.
+                isNumber(txtItemStock.getText())) {
             Item d = new Item();
             d.setId(selectedItem.getId());
             d.setName(txtItemName.getText().trim());
@@ -259,9 +263,11 @@ public class MainFormController implements Initializable {
             TransactionDetail t = new TransactionDetail();
             t.setItemId(d);
             t.setItemName(d.getName());
-            if (getItemDao().updateData(d) == 1) {
+            if (getItemDao().updateData(d) == 1 && getTransactionDetailDao().
+                    updateData(t) == 1) {
                 getItems().clear();
                 getItems().addAll(getItemDao().showAllData());
+                highestSelling.setText(String.valueOf(selectMaxCountItem()));
             }
         }
     }
@@ -270,15 +276,9 @@ public class MainFormController implements Initializable {
     private void btnDeleteItemAction(ActionEvent event) {
         Item d = new Item();
         d.setId(selectedItem.getId());
-        d.setName(selectedItem.getName());
-        d.setPrice(selectedItem.getPrice());
-        d.setStock(0);
         if (getItemDao().deleteData(d) == 1) {
             btnUpdateItem.setDisable(true);
             btnDeleteItem.setDisable(true);
-            getItems().clear();
-            getItems().addAll(getItemDao().showAllData());
-        } else if (getItemDao().updateData(d) == 1) {
             getItems().clear();
             getItems().addAll(getItemDao().showAllData());
         }
@@ -435,7 +435,9 @@ public class MainFormController implements Initializable {
                 while (rs.next()) {
                     TransactionDetail detail = new TransactionDetail();
                     detail.setItemName(rs.getString("item_name"));
-                    max = detail.getItemName();
+                    detail.setQuantity(rs.getInt("Count"));
+                    max = detail.getItemName() + " : " + detail.getQuantity()
+                            + " sold";
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
